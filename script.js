@@ -6,6 +6,7 @@ const cinematicIntro = document.querySelector('#cinematicIntro');
 const cinematicVideo = cinematicIntro?.querySelector('.cinematic-video');
 const invitation = document.querySelector('#invitation');
 const trigger = document.querySelector('#openInvite');
+const rsvpButton = document.querySelector('#rsvpButton');
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 let smoothScroller = null;
 const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
@@ -313,6 +314,11 @@ trigger.addEventListener('click', (event) => {
 
   suppressOpenClick = false;
   openInvitation();
+});
+
+rsvpButton?.addEventListener('click', () => {
+  const message = encodeURIComponent("Hello, I would like to RSVP for Xavier and Dreama's wedding.");
+  window.open(`https://wa.me/?text=${message}`, '_blank', 'noopener,noreferrer');
 });
 
 cinematicVideo?.addEventListener('ended', showCinematicFinalFrame);

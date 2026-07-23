@@ -852,6 +852,8 @@ button { font: inherit; }
 .venue-card:focus-visible, .rsvp-button:focus-visible { outline: 3px solid rgba(197,55,113,.3); outline-offset: 3px; }
 
 .rsvp-button {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   min-height: 46px;
   align-items: center;
@@ -864,6 +866,7 @@ button { font: inherit; }
   color: var(--berry-deep);
   font-size: .86rem;
   font-weight: 600;
+  cursor: pointer;
   text-decoration: none;
   transition-property: background-color, color, transform, box-shadow;
   transition-duration: .22s;
