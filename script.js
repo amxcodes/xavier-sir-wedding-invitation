@@ -235,7 +235,7 @@ function openInvitation() {
   if (cinematicVideo) {
     const portraitMobile = window.matchMedia('(max-width: 900px) and (orientation: portrait)').matches;
     cinematicVideo.poster = portraitMobile
-      ? 'assets/palace-wedding-first-mobile.webp'
+      ? 'assets/palace-wedding-first-mobile-v2.webp'
       : 'assets/palace-wedding-first-desktop.webp';
     cinematicVideo.preload = 'auto';
     cinematicVideo.load();
