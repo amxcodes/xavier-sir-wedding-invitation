@@ -13,6 +13,9 @@ let envelopeAudio = null;
 let paperRub = null;
 let suppressOpenClick = false;
 let cinematicPlaybackStarted = false;
+let cinematicFinalRequested = false;
+let cinematicFinalLocked = false;
+let cinematicFinalLockTimer = 0;
 
 function getEnvelopeAudio() {
   if (!AudioContextConstructor) return null;
@@ -210,15 +213,49 @@ function finishOpening() {
   requestPhotoMotion();
 }
 
+function commitCinematicFinalFrame() {
+  if (!cinematicIntro || cinematicFinalLocked) return;
+
+  cinematicFinalLocked = true;
+  window.clearTimeout(cinematicFinalLockTimer);
+  cinematicVideo?.pause();
+  cinematicIntro.classList.add('is-ended', 'is-final-locked');
+}
+
+function showCinematicFinalFrame({ immediate = false } = {}) {
+  if (!cinematicIntro) return;
+
+  if (cinematicFinalRequested) {
+    if (immediate) commitCinematicFinalFrame();
+    return;
+  }
+
+  cinematicFinalRequested = true;
+  cinematicVideo?.pause();
+  cinematicIntro.classList.add('is-ended');
+
+  if (immediate || motionQuery.matches || !cinematicVideo) {
+    commitCinematicFinalFrame();
+    return;
+  }
+
+  const finishCrossfade = (event) => {
+    if (event.propertyName === 'opacity') commitCinematicFinalFrame();
+  };
+
+  cinematicVideo.addEventListener('transitionend', finishCrossfade, { once: true });
+  cinematicFinalLockTimer = window.setTimeout(commitCinematicFinalFrame, 860);
+}
+
 function startCinematicPlayback() {
   if (cinematicPlaybackStarted) return;
   cinematicPlaybackStarted = true;
 
   if (motionQuery.matches) {
-    cinematicIntro?.classList.add('is-ended');
+    showCinematicFinalFrame({ immediate: true });
   } else {
     cinematicVideo?.play().catch(() => {
-      cinematicIntro?.classList.add('is-ended');
+      showCinematicFinalFrame({ immediate: true });
     });
   }
 }
@@ -234,9 +271,12 @@ function openInvitation() {
   cinematicIntro.hidden = false;
   if (cinematicVideo) {
     const portraitMobile = window.matchMedia('(max-width: 900px) and (orientation: portrait)').matches;
+    const compactLandscape = window.matchMedia('(max-width: 700px)').matches;
     cinematicVideo.poster = portraitMobile
       ? 'assets/palace-wedding-first-mobile-v2.webp'
-      : 'assets/palace-wedding-first-desktop.webp';
+      : compactLandscape
+        ? 'assets/palace-wedding-first-desktop.webp'
+        : 'assets/palace-wedding-first-desktop-v2.webp';
     cinematicVideo.preload = 'auto';
     cinematicVideo.load();
   }
@@ -275,14 +315,27 @@ trigger.addEventListener('click', (event) => {
   openInvitation();
 });
 
-cinematicVideo?.addEventListener('ended', () => {
-  cinematicVideo.pause();
-  cinematicIntro.classList.add('is-ended');
-});
+cinematicVideo?.addEventListener('ended', showCinematicFinalFrame);
 
 cinematicVideo?.addEventListener('error', () => {
-  cinematicIntro.classList.add('is-ended');
+  showCinematicFinalFrame({ immediate: true });
 });
+
+cinematicVideo?.addEventListener('timeupdate', () => {
+  if (!Number.isFinite(cinematicVideo.duration) || cinematicVideo.duration <= 0) return;
+  if (cinematicVideo.duration - cinematicVideo.currentTime <= .16) {
+    showCinematicFinalFrame();
+  }
+});
+
+if ('IntersectionObserver' in window && cinematicIntro) {
+  const cinematicStateObserver = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting || !cinematicPlaybackStarted) return;
+    showCinematicFinalFrame({ immediate: true });
+  }, { threshold: 0 });
+
+  cinematicStateObserver.observe(cinematicIntro);
+}
 
 if ('IntersectionObserver' in window) {
   const invitationRevealObserver = new IntersectionObserver((entries, observer) => {

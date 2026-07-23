@@ -342,6 +342,9 @@ button { font: inherit; }
   opacity: 0;
   pointer-events: none;
 }
+.cinematic-intro.is-final-locked .cinematic-video {
+  display: none;
+}
 
 /* Invitation */
 .invitation {
@@ -437,6 +440,9 @@ button { font: inherit; }
   transform: translate3d(0, 0, 0);
   clip-path: inset(0);
 }
+.enhanced .invitation.is-revealed .invitation-inner > .couple {
+  clip-path: inset(-24% -12%);
+}
 .invitation-prologue { --invitation-delay: 40ms; }
 .couple { --invitation-delay: 330ms; }
 .celebrant { --invitation-delay: 440ms; }
@@ -479,9 +485,9 @@ button { font: inherit; }
 }
 .person h1 {
   margin: 0;
-  font: 500 clamp(3.8rem, 7.6vw, 6.8rem)/.82 "Cormorant Garamond", serif;
-  letter-spacing: -.045em;
-  text-wrap: balance;
+  font: 400 clamp(4.25rem, 8.2vw, 7.4rem)/.9 "Great Vibes", "Cormorant Garamond", cursive;
+  letter-spacing: -.018em;
+  white-space: nowrap;
 }
 .person p {
   max-width: 640px;
@@ -1077,7 +1083,7 @@ button { font: inherit; }
   .heart-mark { width: 18px; margin-bottom: 7px; }
   .host { margin-bottom: 7px; font-size: 1.04rem; line-height: 1.08; }
   .request-copy { max-width: 350px; font-size: .64rem; line-height: 1.42; }
-  .person h1 { font-size: clamp(2.8rem, 13vw, 3.55rem); line-height: .8; letter-spacing: -.04em; }
+  .person h1 { font-size: clamp(2.65rem, 13vw, 3.55rem); line-height: .88; letter-spacing: -.018em; }
   .person p { max-width: 340px; margin-top: 7px; font-size: .6rem; line-height: 1.32; }
   .with { margin: 5px 0 6px; font-size: 1.12rem; line-height: 1; }
   .couple { align-self: center; }
