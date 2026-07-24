@@ -102,6 +102,18 @@ button { font: inherit; }
     radial-gradient(ellipse at 78% 82%, rgba(73,4,24,.19), transparent 44%),
     linear-gradient(145deg, #ad2948 0%, var(--envelope-red) 52%, var(--envelope-red-deep) 100%);
 }
+.envelope-back::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 49% 45%, rgba(255,255,255,.08), transparent 42%),
+    radial-gradient(ellipse at 18% 78%, rgba(42,2,16,.1), transparent 39%),
+    linear-gradient(112deg, transparent 0 44%, rgba(255,255,255,.025) 51%, transparent 58%);
+  mix-blend-mode: overlay;
+  opacity: .72;
+}
 .envelope-back::after, .envelope-flap::after, .envelope-pocket::after {
   content: "";
   position: absolute;
@@ -109,22 +121,25 @@ button { font: inherit; }
   pointer-events: none;
   background-image:
     url("assets/paper-grain.svg"),
+    radial-gradient(circle at 24% 18%, rgba(255,255,255,.055) 0 .45px, transparent .8px),
+    radial-gradient(circle at 74% 62%, rgba(42,2,16,.04) 0 .4px, transparent .75px),
     repeating-linear-gradient(
       0deg,
-      rgba(255,255,255,.038) 0 .55px,
-      rgba(48,2,17,.022) .55px 1px,
-      transparent 1px 3.8px
+      rgba(255,255,255,.032) 0 .45px,
+      rgba(48,2,17,.018) .45px .85px,
+      transparent .85px 3.4px
     ),
     repeating-linear-gradient(
-      91deg,
-      transparent 0 19px,
-      rgba(255,255,255,.026) 19px 19.55px,
-      transparent 19.55px 37px
+      92deg,
+      transparent 0 17px,
+      rgba(255,255,255,.022) 17px 17.45px,
+      transparent 17.45px 34px
     );
   background-repeat: repeat;
-  background-size: 224px 224px, auto, auto;
+  background-size: 192px 192px, 9px 9px, 11px 11px, auto, auto;
+  background-blend-mode: multiply, soft-light, multiply, soft-light, soft-light;
   mix-blend-mode: soft-light;
-  opacity: .42;
+  opacity: .54;
 }
 .envelope-back::after { background-position: 0 0, 0 0, 0 0; }
 .envelope-flap::after { background-position: 37px 18px, 0 1px, 9px 0; }
@@ -173,8 +188,20 @@ button { font: inherit; }
     radial-gradient(ellipse at 50% 2%, rgba(255,255,255,.1), transparent 50%),
     linear-gradient(150deg, var(--envelope-red-light) 0%, #7d102d 83%);
   backface-visibility: visible;
+  filter: drop-shadow(0 2px 2px rgba(50, 3, 19, .24));
   transition: transform .72s cubic-bezier(.2,.72,.18,1);
   will-change: transform;
+}
+.envelope-flap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.12), transparent 2.2%),
+    radial-gradient(ellipse at 50% 4%, rgba(255,255,255,.08), transparent 45%),
+    linear-gradient(132deg, rgba(255,255,255,.035), transparent 38% 62%, rgba(44,2,16,.045));
+  mix-blend-mode: soft-light;
 }
 .envelope-flap::after {
   transition-property: opacity;
@@ -189,7 +216,9 @@ button { font: inherit; }
     linear-gradient(154deg, transparent 0 48%, rgba(54,3,21,.08) 48%),
     radial-gradient(ellipse at 74% 84%, rgba(66,4,25,.2), transparent 46%),
     linear-gradient(154deg, #a91f40 0%, #750d2a 100%);
-  box-shadow: inset 0 1px rgba(255,255,255,.12);
+  box-shadow:
+    inset 0 1px rgba(255,255,255,.18),
+    inset 0 3px 7px rgba(48,2,18,.1);
   transition: transform .92s cubic-bezier(.2,.76,.22,1);
   will-change: transform;
 }
@@ -199,19 +228,20 @@ button { font: inherit; }
   top: 53%;
   left: 50%;
   display: grid;
-  width: clamp(76px, 11vw, 104px);
+  width: clamp(82px, 11vw, 110px);
   aspect-ratio: 1;
   place-items: center;
   overflow: hidden;
-  border-radius: 48% 52% 46% 54% / 51% 45% 55% 49%;
+  border-radius: 45% 55% 48% 52% / 53% 46% 54% 47%;
   background:
-    radial-gradient(circle at 34% 25%, rgba(255,255,255,.9), transparent 23%),
-    radial-gradient(circle at 52% 58%, #fff9e9 0 43%, #eadcc2 72%, #cfba96 100%);
+    radial-gradient(circle at 31% 22%, rgba(255,255,255,.82), transparent 18%),
+    radial-gradient(circle at 55% 62%, #f5ead5 0 48%, #dbc7a8 74%, #b99a72 100%);
   box-shadow:
-    inset 2px 3px 5px rgba(255,255,255,.74),
-    inset -4px -5px 8px rgba(115,78,52,.24),
-    0 10px 21px rgba(55,9,28,.28),
-    0 2px 5px rgba(55,9,28,.18);
+    inset 3px 4px 6px rgba(255,255,255,.78),
+    inset -5px -6px 9px rgba(104,69,43,.31),
+    1px 2px 0 rgba(255,255,255,.34),
+    0 13px 24px rgba(43,6,21,.34),
+    0 3px 7px rgba(43,6,21,.22);
   opacity: 1;
   transform: translate3d(-50%, -50%, 0) scale(1);
   transform-origin: 50% 50%;
@@ -224,12 +254,17 @@ button { font: inherit; }
   content: "";
   position: absolute;
   z-index: 1;
-  inset: 8%;
-  border: 1px solid rgba(132,91,62,.25);
-  border-radius: 51% 49% 53% 47% / 48% 52% 46% 54%;
+  inset: 10%;
+  border: 2px solid rgba(148,116,79,.34);
+  border-radius: 52% 48% 50% 50% / 47% 53% 46% 54%;
+  background:
+    radial-gradient(circle at 39% 31%, rgba(255,255,255,.56), transparent 22%),
+    radial-gradient(circle at 58% 63%, #f8eedb 0 55%, #ddc9aa 100%);
   box-shadow:
-    inset 0 1px 2px rgba(102,68,45,.16),
-    0 1px 1px rgba(255,255,255,.75);
+    inset 2px 2px 3px rgba(255,255,255,.7),
+    inset -3px -3px 5px rgba(100,66,41,.23),
+    0 1px 2px rgba(81,49,28,.18),
+    0 -1px 1px rgba(255,255,255,.7);
   pointer-events: none;
 }
 .wax-seal::after {
@@ -240,21 +275,21 @@ button { font: inherit; }
   border-radius: inherit;
   background:
     url("assets/paper-grain.svg"),
-    radial-gradient(circle at 72% 26%, rgba(111,75,49,.18) 0 .7px, transparent 1.2px),
-    radial-gradient(circle at 28% 72%, rgba(255,255,255,.65) 0 .65px, transparent 1.1px);
-  background-size: 92px 92px, 13px 13px, 11px 11px;
+    radial-gradient(circle at 72% 26%, rgba(105,68,41,.25) 0 .7px, transparent 1.3px),
+    radial-gradient(circle at 28% 72%, rgba(255,255,255,.72) 0 .65px, transparent 1.15px);
+  background-size: 84px 84px, 13px 13px, 11px 11px;
   mix-blend-mode: multiply;
-  opacity: .2;
+  opacity: .27;
   pointer-events: none;
 }
 .wax-seal img {
   position: relative;
   z-index: 2;
-  width: 63%;
+  width: 56%;
   opacity: .96;
   filter:
-    drop-shadow(0 1px 0 rgba(255,255,255,.78))
-    drop-shadow(0 -1px 0 rgba(93,35,59,.18));
+    drop-shadow(-1px -1px 0 rgba(255,255,255,.74))
+    drop-shadow(1px 1px 0 rgba(91,38,60,.24));
 }
 .open-instruction {
   position: absolute;
