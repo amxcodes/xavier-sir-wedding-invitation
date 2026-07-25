@@ -419,13 +419,14 @@ function openInvitation() {
     return;
   }
 
-  window.setTimeout(() => opening.classList.add('is-opening'), 80);
-  window.setTimeout(() => opening.classList.add('is-flap-open'), 220);
-  window.setTimeout(() => opening.classList.add('is-flap-settled'), 940);
-  window.setTimeout(() => opening.classList.add('is-lifted'), 960);
-  window.setTimeout(startCinematicPlayback, 2150);
-  window.setTimeout(() => opening.classList.add('is-handoff'), 2300);
-  window.setTimeout(finishOpening, 2920);
+  window.setTimeout(() => opening.classList.add('is-opening'), 90);
+  window.setTimeout(() => opening.classList.add('is-flap-open'), 290);
+  window.setTimeout(() => opening.classList.add('is-seal-released'), 560);
+  window.setTimeout(() => opening.classList.add('is-paper-rising'), 840);
+  window.setTimeout(() => opening.classList.add('is-flap-settled', 'is-lifted'), 1080);
+  window.setTimeout(startCinematicPlayback, 2300);
+  window.setTimeout(() => opening.classList.add('is-handoff'), 2470);
+  window.setTimeout(finishOpening, 3080);
 }
 
 trigger.addEventListener('pointerdown', beginPaperRub);
