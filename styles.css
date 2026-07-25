@@ -1139,37 +1139,46 @@ button { font: inherit; }
   color: #3287b8;
   font: 500 .72em/1 "Great Vibes", cursive;
 }
-.betrothal-date {
+.betrothal-details {
+  padding: clamp(78px, 9vw, 122px) clamp(24px, 6vw, 92px);
+  color: #18394f;
+  background: #eef8fc;
+}
+.betrothal-details-layout {
   display: grid;
-  grid-template-columns: 1fr minmax(160px, 210px) 1fr;
+  grid-template-columns: minmax(310px, .82fr) minmax(0, 1.18fr);
   align-items: center;
-  width: min(100%, 670px);
-  margin: clamp(44px, 6vw, 66px) auto clamp(44px, 6vw, 64px);
-  color: #1b75a9;
-  font: 500 clamp(1.4rem, 2.7vw, 2.2rem)/1 "Playfair Display", serif;
+  gap: clamp(64px, 9vw, 136px);
+  width: min(100%, 1120px);
+  margin: 0 auto;
 }
-.betrothal-date > span { padding: .5em; }
-.betrothal-date > span:first-child { border-right: 1px solid rgba(31,117,169,.55); }
-.betrothal-date > span:last-child { border-left: 1px solid rgba(31,117,169,.55); }
-.betrothal-date p { display: grid; gap: 0; margin: 0; }
-.betrothal-date small { font: 600 .65rem/1 "DM Sans", sans-serif; letter-spacing: .13em; text-transform: uppercase; }
-.betrothal-date strong { font: 500 clamp(5.7rem, 10vw, 8rem)/.79 "Playfair Display", serif; letter-spacing: -.065em; font-variant-numeric: tabular-nums; }
-.betrothal-venue { display: grid; justify-items: center; gap: 10px; }
-.betrothal-venue p {
-  display: flex;
+.betrothal-detail-date {
+  display: grid;
+  grid-template-columns: 1fr minmax(150px, 200px) 1fr;
   align-items: center;
-  gap: 12px;
-  margin: 0;
-  color: #2d7fab;
-  font: 500 1.6rem/1 "Great Vibes", cursive;
+  color: #267dac;
+  font: 500 clamp(1.2rem, 2.4vw, 1.9rem)/1 "Playfair Display", serif;
+  text-align: center;
 }
-.betrothal-venue p::before,
-.betrothal-venue p::after { width: 84px; height: 1px; background: currentColor; content: ""; opacity: .62; }
-.betrothal-venue a { color: #162735; font: 600 clamp(1.35rem, 2.45vw, 2rem)/1.2 "Playfair Display", serif; text-decoration: none; }
-.betrothal-venue a:hover { text-decoration: underline; text-underline-offset: .16em; }
-.betrothal-venue small { color: #315366; font: 500 clamp(.92rem, 1.65vw, 1.13rem)/1.65 "DM Sans", sans-serif; }
-.betrothal-venue small a { color: inherit; font: 600 1em/1.3 "Playfair Display", serif; }
-.betrothal-closing { margin: clamp(54px, 7vw, 80px) auto 0; color: #254a5f; font: 500 clamp(1rem, 1.8vw, 1.25rem)/1.45 "DM Sans", sans-serif; text-wrap: balance; }
+.betrothal-detail-date > span { padding: .55em .45em; }
+.betrothal-detail-date > span:first-child { border-right: 1px solid rgba(38,125,172,.48); }
+.betrothal-detail-date > span:last-child { border-left: 1px solid rgba(38,125,172,.48); }
+.betrothal-detail-date div { display: grid; gap: 0; }
+.betrothal-detail-date small { font: 600 .65rem/1 "DM Sans", sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+.betrothal-detail-date strong { font: 500 clamp(5.5rem, 9.6vw, 7.6rem)/.79 "Playfair Display", serif; letter-spacing: -.065em; font-variant-numeric: tabular-nums; }
+.betrothal-locations { display: grid; gap: clamp(35px, 4vw, 52px); }
+.betrothal-location {
+  display: grid;
+  gap: 7px;
+  color: inherit;
+  text-decoration: none;
+}
+.betrothal-location > span { color: #2d7fab; font: 700 .67rem/1 "DM Sans", sans-serif; letter-spacing: .17em; text-transform: uppercase; }
+.betrothal-location strong { font: 600 clamp(1.45rem, 2.5vw, 2rem)/1.15 "Playfair Display", serif; }
+.betrothal-location small { color: #315366; font: 500 .95rem/1.3 "DM Sans", sans-serif; }
+.betrothal-location em { margin-top: 4px; color: #2d7fab; font: 650 .71rem/1 "DM Sans", sans-serif; font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
+.betrothal-location:hover strong { text-decoration: underline; text-decoration-color: rgba(45,127,171,.56); text-underline-offset: .16em; }
+.betrothal-closing { width: min(100% - 48px, 720px); margin: clamp(68px, 8vw, 104px) auto 0; color: #254a5f; font: 500 clamp(1rem, 1.8vw, 1.25rem)/1.45 "DM Sans", sans-serif; text-align: center; text-wrap: balance; }
 .closing {
   position: relative;
   display: grid;
@@ -1447,13 +1456,15 @@ button { font: inherit; }
   .betrothal-intro { max-width: 310px; margin-bottom: 24px; font-size: 1.18rem; }
   .betrothal-kicker { margin-bottom: 10px; font-size: 1.46rem; }
   .betrothal h2 { max-width: 360px; font-size: clamp(2.2rem, 10vw, 3rem); }
-  .betrothal-date { grid-template-columns: 1fr minmax(122px, 142px) 1fr; margin: 42px auto 48px; font-size: clamp(1.1rem, 5vw, 1.42rem); }
-  .betrothal-date > span { padding: .45em .25em; }
-  .betrothal-date strong { font-size: clamp(4.8rem, 23vw, 6.1rem); }
-  .betrothal-date small { font-size: .55rem; }
-  .betrothal-venue p::before, .betrothal-venue p::after { width: 55px; }
-  .betrothal-venue a { max-width: 310px; font-size: 1.42rem; }
-  .betrothal-closing { max-width: 320px; margin-top: 52px; font-size: .93rem; }
+  .betrothal-details { padding: 66px 22px 78px; }
+  .betrothal-details-layout { grid-template-columns: 1fr; gap: 52px; width: min(100%, 420px); }
+  .betrothal-detail-date { grid-template-columns: 1fr minmax(122px, 142px) 1fr; font-size: clamp(1.1rem, 5vw, 1.42rem); }
+  .betrothal-detail-date > span { padding: .45em .25em; }
+  .betrothal-detail-date strong { font-size: clamp(4.8rem, 23vw, 6.1rem); }
+  .betrothal-detail-date small { font-size: .55rem; }
+  .betrothal-locations { gap: 40px; }
+  .betrothal-location strong { font-size: clamp(1.32rem, 6.3vw, 1.65rem); }
+  .betrothal-closing { width: min(100%, 320px); margin-top: 52px; font-size: .93rem; }
   .closing {
     width: 100%;
     padding: 24px 20px max(64px, calc(env(safe-area-inset-bottom) + 40px));
