@@ -1223,6 +1223,120 @@ button { font: inherit; }
   letter-spacing: -.02em;
 }
 
+/* Delicate movement — intentionally limited so the invitation stays calm on mobile. */
+.petal-layer {
+  position: fixed;
+  z-index: 12;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .45s ease, visibility 0s linear .45s;
+}
+body.is-petal-active .petal-layer {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+.petal-layer span {
+  --drift: 6vw;
+  position: absolute;
+  top: -12vh;
+  width: 10px;
+  height: 15px;
+  border-radius: 80% 18% 80% 18%;
+  background: linear-gradient(135deg, rgba(252,205,218,.9), rgba(190,59,108,.54));
+  opacity: .42;
+  animation: petal-fall 22s linear infinite;
+  animation-play-state: paused;
+  will-change: transform;
+}
+body.is-petal-active .petal-layer span { animation-play-state: running; }
+body.is-petals-paused .petal-layer span { animation-play-state: paused; }
+.petal-layer span:nth-child(1) { left: 6%; --drift: 8vw; animation-duration: 24s; animation-delay: -13s; }
+.petal-layer span:nth-child(2) { left: 17%; --drift: -6vw; width: 7px; height: 11px; animation-duration: 19s; animation-delay: -5s; }
+.petal-layer span:nth-child(3) { left: 31%; --drift: 11vw; animation-duration: 29s; animation-delay: -18s; }
+.petal-layer span:nth-child(4) { left: 47%; --drift: -10vw; width: 8px; height: 12px; animation-duration: 21s; animation-delay: -9s; }
+.petal-layer span:nth-child(5) { left: 62%; --drift: 7vw; animation-duration: 26s; animation-delay: -21s; }
+.petal-layer span:nth-child(6) { left: 74%; --drift: -8vw; width: 7px; height: 11px; animation-duration: 20s; animation-delay: -14s; }
+.petal-layer span:nth-child(7) { left: 85%; --drift: 5vw; animation-duration: 27s; animation-delay: -7s; }
+.petal-layer span:nth-child(8) { left: 93%; --drift: -7vw; width: 8px; height: 13px; animation-duration: 23s; animation-delay: -16s; }
+.petal-layer span:nth-child(9) { left: 39%; --drift: -4vw; width: 6px; height: 9px; animation-duration: 18s; animation-delay: -11s; }
+@keyframes petal-fall {
+  from { transform: translate3d(0, -12vh, 0) rotate(0deg); }
+  to { transform: translate3d(var(--drift), 112vh, 0) rotate(300deg); }
+}
+
+/* A short, scroll-triggered reveal rather than continuous scroll-tied animation. */
+.enhanced .scroll-reveal .event-layout,
+.enhanced .scroll-reveal .betrothal-inner,
+.enhanced .scroll-reveal .betrothal-details-layout,
+.enhanced .scroll-reveal .attendance-copy,
+.enhanced .scroll-reveal .attendance-response {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition: opacity .7s ease-out, transform .7s cubic-bezier(.2,.72,.18,1);
+}
+.enhanced .scroll-reveal.is-visible .event-layout,
+.enhanced .scroll-reveal.is-visible .betrothal-inner,
+.enhanced .scroll-reveal.is-visible .betrothal-details-layout,
+.enhanced .scroll-reveal.is-visible .attendance-copy,
+.enhanced .scroll-reveal.is-visible .attendance-response {
+  opacity: 1;
+  transform: none;
+}
+.enhanced .scroll-reveal .attendance-response { transition-delay: .1s; }
+
+/* RSVP response controls */
+.attendance-name-label { justify-self: start; width: min(100%, 280px); }
+.attendance-name {
+  width: min(100%, 280px);
+  min-height: 46px;
+  margin: 9px 0 17px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,244,238,.42);
+  border-radius: 0;
+  outline: 0;
+  color: #fffaf4;
+  background: rgba(57,5,27,.14);
+  font: 500 .92rem/1.2 "DM Sans", sans-serif;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+.attendance-name::placeholder { color: rgba(255,244,238,.55); }
+.attendance-name:focus { border-color: #fffaf4; background: rgba(57,5,27,.25); }
+.attendance-label--choice { justify-self: start; width: min(100%, 280px); margin-bottom: 9px; }
+.attendance-choice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: min(100%, 280px); }
+.attendance-choice-button {
+  min-height: 42px;
+  padding: 0 10px;
+  border: 1px solid rgba(255,244,238,.35);
+  border-radius: 0;
+  color: rgba(255,244,238,.83);
+  background: transparent;
+  font: 650 .67rem/1.15 "DM Sans", sans-serif;
+  letter-spacing: .035em;
+  cursor: pointer;
+  transition: color .18s ease, background-color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.attendance-choice-button.is-selected { border-color: #fffaf4; color: var(--berry-deep); background: #fff9f2; }
+.attendance-choice-button:active { transform: scale(.97); }
+.attendance-events {
+  display: grid;
+  gap: 9px;
+  width: min(100%, 280px);
+  margin: 22px 0 0;
+  padding: 0;
+  border: 0;
+  text-align: left;
+  transition: opacity .18s ease;
+}
+.attendance-events legend { margin-bottom: 10px; padding: 0; color: rgba(255,244,238,.82); font: 700 .71rem/1 "DM Sans", sans-serif; letter-spacing: .15em; text-transform: uppercase; }
+.attendance-events label { display: flex; align-items: center; gap: 9px; color: rgba(255,244,238,.82); font: 500 .84rem/1.25 "DM Sans", sans-serif; cursor: pointer; }
+.attendance-events input { width: 15px; height: 15px; margin: 0; accent-color: #fff9f2; }
+.attendance-events:disabled, .rsvp.is-declined .guest-stepper, .rsvp.is-declined .attendance-events { opacity: .35; }
+.rsvp.is-declined .attendance-label--detail { opacity: .35; }
+
 @media (hover: hover) and (pointer: fine) {
   .venue-card:hover { transform: translateY(-2px); }
   .venue-card:hover .venue-action svg { transform: translate(2px, -2px); }
@@ -1245,6 +1359,7 @@ button { font: inherit; }
       radial-gradient(circle at 50% 42%, rgba(255,255,255,.78), transparent 38%),
       linear-gradient(160deg, #fbf7ef 0%, #f2e8dc 100%);
   }
+  .petal-layer span:nth-child(n + 7) { display: none; }
   .envelope-screen.is-handoff { transform: translate3d(0, -103%, 0) scale(.988); }
   .cinematic-intro {
     height: 100svh;
@@ -1448,6 +1563,8 @@ button { font: inherit; }
     line-height: 1.45;
   }
   .attendance-response { width: min(100%, 320px); padding: 28px 0 0; border-top: 1px solid rgba(255,244,238,.25); border-left: 0; }
+  .attendance-name-label, .attendance-label--choice { justify-self: center; }
+  .attendance-events { text-align: left; }
   .rsvp-button {
     width: min(100%, 282px);
     min-height: 52px;
@@ -1505,6 +1622,12 @@ button { font: inherit; }
   }
   .enhanced .memory-open::after { display: none; }
   .photo-viewer[open] { animation: none; }
+  .petal-layer { display: none; }
+  .enhanced .scroll-reveal .event-layout,
+  .enhanced .scroll-reveal .betrothal-inner,
+  .enhanced .scroll-reveal .betrothal-details-layout,
+  .enhanced .scroll-reveal .attendance-copy,
+  .enhanced .scroll-reveal .attendance-response { opacity: 1; transform: none; }
 }
 
 @media (max-width: 700px) and (max-height: 640px) {

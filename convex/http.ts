@@ -41,12 +41,15 @@ http.route({
     try {
       const payload = await request.json();
       const token = typeof payload.inviteToken === "string" ? payload.inviteToken : null;
+      const name = typeof payload.name === "string" ? payload.name : "";
+      const attending = typeof payload.attending === "boolean" ? payload.attending : null;
       const guests = typeof payload.guests === "number" ? payload.guests : NaN;
-      if (!validInviteToken(token) || !Number.isFinite(guests)) {
+      const events = Array.isArray(payload.events) && payload.events.every((event) => typeof event === "string") ? payload.events : null;
+      if (!validInviteToken(token) || !name.trim() || attending === null || !Number.isFinite(guests) || !events) {
         return Response.json({ error: "Invalid invitation response." }, { status: 400, headers: corsHeaders });
       }
 
-      const invite = await ctx.runMutation(api.attendance.acceptInvite, { inviteToken: token, guests });
+      const invite = await ctx.runMutation(api.attendance.acceptInvite, { inviteToken: token, name, attending, guests, events });
       return Response.json(invite, { headers: corsHeaders });
     } catch {
       return Response.json({ error: "Unable to save your response." }, { status: 400, headers: corsHeaders });

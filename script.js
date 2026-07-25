@@ -13,6 +13,10 @@ const guestCount = document.querySelector('#guestCount');
 const acceptInvite = document.querySelector('#acceptInvite');
 const attendanceStatus = document.querySelector('#attendanceStatus');
 const attendeeTotal = document.querySelector('#attendeeTotal');
+const guestName = document.querySelector('#guestName');
+const attendingYes = document.querySelector('#attendingYes');
+const attendingNo = document.querySelector('#attendingNo');
+const attendanceEvents = document.querySelector('#attendanceEvents');
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 let smoothScroller = null;
 const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
@@ -26,11 +30,18 @@ let cinematicFinalLockTimer = 0;
 let selectedGuests = 1;
 let inviteAccepted = false;
 let attendanceSaving = false;
+let attending = true;
 
 const inviteStorageKey = 'xavier-dreama-invite-token';
 const attendanceEndpoint = attendanceSection?.dataset.attendanceEndpoint || window.INVITATION_ATTENDANCE_ENDPOINT || '';
 
 function getInviteToken() {
+  const urlInviteToken = new URLSearchParams(window.location.search).get('invite');
+  if (urlInviteToken && /^[a-zA-Z0-9-]{16,80}$/.test(urlInviteToken)) {
+    window.localStorage.setItem(inviteStorageKey, urlInviteToken);
+    return urlInviteToken;
+  }
+
   let inviteToken = window.localStorage.getItem(inviteStorageKey);
 
   if (!inviteToken) {
@@ -43,17 +54,26 @@ function getInviteToken() {
 }
 
 function renderAttendance() {
-  if (!attendanceSection) return;
+  if (!attendanceSection || !guestCount || !guestName || !attendanceEvents || !attendingYes || !attendingNo || !acceptInvite) return;
 
   guestCount.textContent = String(selectedGuests);
-  guestDecrease.disabled = selectedGuests <= 1 || attendanceSaving;
-  guestIncrease.disabled = selectedGuests >= 8 || attendanceSaving;
+  attendanceSection.classList.toggle('is-declined', !attending);
+  guestName.disabled = attendanceSaving;
+  guestDecrease.disabled = !attending || selectedGuests <= 1 || attendanceSaving;
+  guestIncrease.disabled = !attending || selectedGuests >= 8 || attendanceSaving;
+  attendanceEvents.disabled = !attending || attendanceSaving;
+  attendingYes.disabled = attendanceSaving;
+  attendingNo.disabled = attendanceSaving;
+  attendingYes.classList.toggle('is-selected', attending);
+  attendingNo.classList.toggle('is-selected', !attending);
   acceptInvite.disabled = attendanceSaving || !attendanceEndpoint;
   acceptInvite.querySelector('span').textContent = attendanceSaving
     ? 'Saving your response…'
     : inviteAccepted
       ? 'Update invitation'
-      : 'Accept invitation';
+      : attending
+        ? 'Accept invitation'
+        : 'Send response';
 }
 
 function setAttendanceStatus(message = '', isError = false) {
@@ -75,9 +95,12 @@ async function loadAttendance() {
 
     const invite = await response.json();
     selectedGuests = Math.min(8, Math.max(1, Number(invite.guests) || 1));
+    attending = invite.attending !== false;
+    guestName.value = invite.name || '';
+    attendanceEvents.querySelectorAll('input').forEach((input) => { input.checked = (invite.events || []).includes(input.value); });
     inviteAccepted = Boolean(invite.accepted);
     attendeeTotal.textContent = Number(invite.totalGuests || 0).toLocaleString('en-IN');
-    setAttendanceStatus(inviteAccepted ? 'Your invitation is accepted.' : '');
+    setAttendanceStatus(inviteAccepted ? (attending ? 'Your invitation is accepted.' : 'We have received your response.') : '');
   } catch {
     setAttendanceStatus('We could not reach the invitation service. Please try again shortly.', true);
   }
@@ -88,23 +111,32 @@ async function loadAttendance() {
 async function saveAttendance() {
   if (!attendanceEndpoint || attendanceSaving) return;
 
+  const name = guestName?.value.trim() || '';
+  if (!name) {
+    setAttendanceStatus('Please enter your name before sending your response.', true);
+    guestName?.focus();
+    return;
+  }
+
   attendanceSaving = true;
   setAttendanceStatus('');
   renderAttendance();
 
   try {
+    const events = [...attendanceEvents.querySelectorAll('input:checked')].map((input) => input.value);
     const response = await fetch(attendanceEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ inviteToken: getInviteToken(), guests: selectedGuests })
+      body: JSON.stringify({ inviteToken: getInviteToken(), name, attending, guests: selectedGuests, events })
     });
     if (!response.ok) throw new Error('Could not save invitation');
 
     const invite = await response.json();
     selectedGuests = Number(invite.guests) || selectedGuests;
+    attending = invite.attending !== false;
     inviteAccepted = Boolean(invite.accepted);
     attendeeTotal.textContent = Number(invite.totalGuests || 0).toLocaleString('en-IN');
-    setAttendanceStatus('Your place is reserved. We cannot wait to celebrate with you.');
+    setAttendanceStatus(attending ? 'Your place is reserved. We cannot wait to celebrate with you.' : 'Thank you for letting us know.');
   } catch {
     setAttendanceStatus('We could not save your response. Please try again.', true);
   } finally {
@@ -304,6 +336,7 @@ function endPaperRub(event) {
 function finishOpening() {
   opening.classList.add('is-complete');
   body.classList.remove('is-locked');
+  if (!motionQuery.matches) body.classList.add('is-petal-active');
   smoothScroller?.start();
   smoothScroller?.resize();
   requestPhotoMotion();
@@ -421,6 +454,9 @@ guestIncrease?.addEventListener('click', () => {
   renderAttendance();
 });
 
+attendingYes?.addEventListener('click', () => { attending = true; renderAttendance(); });
+attendingNo?.addEventListener('click', () => { attending = false; renderAttendance(); });
+
 acceptInvite?.addEventListener('click', saveAttendance);
 loadAttendance();
 
@@ -448,6 +484,24 @@ if ('IntersectionObserver' in window) {
 } else {
   invitation.classList.add('is-revealed');
 }
+
+const sectionReveals = [...document.querySelectorAll('.scroll-reveal')];
+if ('IntersectionObserver' in window) {
+  const sectionRevealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+  sectionReveals.forEach((section) => sectionRevealObserver.observe(section));
+} else {
+  sectionReveals.forEach((section) => section.classList.add('is-visible'));
+}
+
+document.addEventListener('visibilitychange', () => {
+  body.classList.toggle('is-petals-paused', document.hidden);
+});
 
 const memoryFrames = [...document.querySelectorAll('.memory-frame')];
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
