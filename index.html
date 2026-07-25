@@ -193,17 +193,32 @@
         </div>
       </section>
 
-      <section class="rsvp" id="rsvp" aria-labelledby="rsvpTitle">
-        <img src="assets/heart.svg" alt="" />
-        <h2 id="rsvpTitle">Are you coming?</h2>
-        <p>We would love to celebrate with you.</p>
-        <button class="rsvp-button" id="rsvpButton" type="button">
-          <svg class="rsvp-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7.2 18.5 3.8 20l1.1-3.6A8 8 0 1 1 7.2 18.5Z" />
-            <path d="m8.2 11.8 2.1 2.1 5-5" />
-          </svg>
-          <span>RSVP via WhatsApp</span>
-        </button>
+      <section class="rsvp" id="rsvp" aria-labelledby="rsvpTitle" data-attendance-endpoint="">
+        <div class="attendance-copy">
+          <img src="assets/heart.svg" alt="" />
+          <p class="attendance-kicker">A place is held for you</p>
+          <h2 id="rsvpTitle">With joy, we invite you.</h2>
+          <p class="attendance-note">Choose the number in your party and accept the invitation when you are ready.</p>
+        </div>
+
+        <div class="attendance-response">
+          <p class="attendance-label">Your party</p>
+          <div class="guest-stepper" role="group" aria-label="Number of guests attending">
+            <button class="guest-stepper-button" id="guestDecrease" type="button" aria-label="Decrease guest count">−</button>
+            <output class="guest-count" id="guestCount" aria-live="polite">1</output>
+            <button class="guest-stepper-button" id="guestIncrease" type="button" aria-label="Increase guest count">+</button>
+          </div>
+          <p class="attendance-label attendance-label--detail">Guests attending</p>
+          <button class="rsvp-button" id="acceptInvite" type="button">
+            <svg class="rsvp-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7.2 18.5 3.8 20l1.1-3.6A8 8 0 1 1 7.2 18.5Z" />
+              <path d="m8.2 11.8 2.1 2.1 5-5" />
+            </svg>
+            <span>Accept invitation</span>
+          </button>
+          <p class="attendance-status" id="attendanceStatus" aria-live="polite"></p>
+          <p class="attendance-total"><strong id="attendeeTotal">—</strong> guests are celebrating with us</p>
+        </div>
       </section>
 
       <footer class="closing">
@@ -217,6 +232,7 @@
       </footer>
     </main>
     <script defer src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
+    <script defer src="site-config.js"></script>
     <script defer src="script.js"></script>
   </body>
 </html>

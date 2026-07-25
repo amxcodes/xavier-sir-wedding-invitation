@@ -920,37 +920,116 @@ button { font: inherit; }
 /* RSVP and sign-off */
 .rsvp {
   position: relative;
-  min-height: 0;
+  min-height: min(680px, 82svh);
   display: grid;
-  place-content: center;
-  justify-items: center;
-  padding: clamp(88px, 9vw, 128px) 24px clamp(46px, 5vw, 66px);
-  text-align: center;
-  background: var(--berry-deep);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(42px, 8vw, 130px);
+  padding: clamp(72px, 8vw, 116px) max(24px, 8vw) clamp(62px, 7vw, 96px);
+  color: #fffaf4;
+  text-align: left;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 12%, rgba(231, 133, 171, .2), transparent 30%),
+    linear-gradient(135deg, #7c103c 0%, var(--berry-deep) 62%, #64102f 100%);
 }
-.rsvp > img {
+.rsvp::after {
+  position: absolute;
+  inset: auto -12% -85% 42%;
+  width: min(45vw, 600px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 244, 238, .15);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+.attendance-copy, .attendance-response { position: relative; z-index: 1; }
+.attendance-copy { max-width: 620px; }
+.attendance-copy > img {
   width: 24px;
-  margin-bottom: 22px;
+  margin-bottom: 17px;
   filter: brightness(0) invert(1);
   opacity: .86;
 }
+.attendance-kicker, .rsvp p.attendance-kicker {
+  margin: 0 0 14px;
+  color: rgba(255,244,238,.76);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
 .rsvp h2 {
-  max-width: 820px;
   margin: 0;
   color: #fffaf4;
-  font: 500 clamp(3.1rem, 6.5vw, 5.8rem)/.95 "Playfair Display", serif;
-  letter-spacing: -.055em;
+  font: 500 clamp(3rem, 5.45vw, 5.3rem)/.98 "Playfair Display", serif;
+  letter-spacing: -.045em;
   text-wrap: balance;
 }
-.rsvp p { margin: 18px 0 2px; color: rgba(255,244,238,.74); text-wrap: pretty; }
+.rsvp p { color: rgba(255,244,238,.74); text-wrap: pretty; }
+.attendance-note {
+  max-width: 405px;
+  margin: 20px 0 0;
+  font-size: .98rem;
+  line-height: 1.55;
+}
+.attendance-response {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  padding: 8px 0 8px clamp(38px, 5vw, 76px);
+  border-left: 1px solid rgba(255,244,238,.25);
+  text-align: center;
+}
+.attendance-label {
+  margin: 0;
+  color: rgba(255,244,238,.82) !important;
+  font-size: .71rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.attendance-label--detail { margin-top: 13px; color: rgba(255,244,238,.55) !important; font-size: .62rem; }
+.guest-stepper {
+  display: grid;
+  grid-template-columns: 48px minmax(80px, 1fr) 48px;
+  align-items: center;
+  width: min(100%, 220px);
+  margin-top: 16px;
+  border-top: 1px solid rgba(255,244,238,.25);
+  border-bottom: 1px solid rgba(255,244,238,.25);
+}
+.guest-stepper-button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  color: #fffaf4;
+  background: transparent;
+  font: 400 1.55rem/1 "DM Sans", sans-serif;
+  cursor: pointer;
+  transition: color .18s ease, transform .18s ease;
+}
+.guest-stepper-button:hover:not(:disabled) { color: #f4a3c1; transform: scale(1.08); }
+.guest-stepper-button:disabled { cursor: default; opacity: .32; }
+.guest-count { color: #fffaf4; font: 500 2rem/1 "Playfair Display", serif; font-variant-numeric: tabular-nums; }
 .rsvp-button {
   min-height: 50px;
-  margin-top: 30px;
+  width: min(100%, 250px);
+  margin-top: 25px;
   padding-inline: 25px;
   background: #fff9f2;
   color: var(--berry-deep);
   box-shadow: 0 12px 30px rgba(46,4,21,.18), 0 2px 8px rgba(46,4,21,.12);
 }
+.rsvp-button:disabled { cursor: wait; opacity: .7; }
+.attendance-status { min-height: 1.25em; max-width: 290px; margin: 13px 0 0 !important; color: rgba(255,244,238,.83) !important; font-size: .76rem; line-height: 1.4; }
+.attendance-status.is-error { color: #ffd2df !important; }
+.attendance-total { margin: 14px 0 0 !important; color: rgba(255,244,238,.65) !important; font-size: .75rem; }
+.attendance-total strong { color: #fffaf4; font-variant-numeric: tabular-nums; }
 .venue-card:active, .rsvp-button:active { transform: scale(.96); }
 .closing {
   position: relative;
@@ -1194,27 +1273,33 @@ button { font: inherit; }
   }
   .rsvp {
     width: 100%;
-    min-height: 100svh;
-    min-height: 100dvh;
-    padding: max(66px, calc(env(safe-area-inset-top) + 34px)) 20px max(54px, calc(env(safe-area-inset-bottom) + 34px));
+    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: max(58px, calc(env(safe-area-inset-top) + 30px)) 20px max(58px, calc(env(safe-area-inset-bottom) + 34px));
+    text-align: center;
   }
-  .rsvp > img { width: 21px; margin-bottom: 16px; }
+  .rsvp::after { inset: auto -38% -28% auto; width: 85vw; }
+  .attendance-copy { display: grid; justify-items: center; }
+  .attendance-copy > img { width: 21px; margin-bottom: 13px; }
+  .attendance-kicker, .rsvp p.attendance-kicker { margin-bottom: 10px; font-size: .62rem; }
   .rsvp h2 {
     width: min(100%, 340px);
-    font-size: clamp(2.75rem, 13vw, 3.75rem);
-    line-height: 1.08;
+    font-size: clamp(2.5rem, 12vw, 3.55rem);
+    line-height: 1.02;
     letter-spacing: -.035em;
   }
-  .rsvp p {
+  .attendance-note {
     max-width: 280px;
-    margin-top: 15px;
+    margin-top: 14px;
     font-size: .9rem;
     line-height: 1.45;
   }
+  .attendance-response { width: min(100%, 320px); padding: 28px 0 0; border-top: 1px solid rgba(255,244,238,.25); border-left: 0; }
   .rsvp-button {
     width: min(100%, 282px);
     min-height: 52px;
-    margin-top: 24px;
+    margin-top: 22px;
     padding-inline: 20px;
     font-size: .85rem;
   }
@@ -1266,11 +1351,13 @@ button { font: inherit; }
   .person p { font-size: .56rem; }
   .with { margin: 4px 0 5px; }
   .celebrant { margin: 0; font-size: .62rem; }
-  .rsvp { padding-top: 34px; padding-bottom: 34px; }
-  .rsvp > img { margin-bottom: 11px; }
-  .rsvp h2 { font-size: 2.65rem; }
-  .rsvp p { margin-top: 11px; }
-  .rsvp-button { margin-top: 18px; }
+  .rsvp { gap: 24px; padding-top: 38px; padding-bottom: 38px; }
+  .attendance-copy > img { margin-bottom: 8px; }
+  .attendance-kicker, .rsvp p.attendance-kicker { margin-bottom: 7px; }
+  .rsvp h2 { font-size: 2.5rem; }
+  .attendance-note { margin-top: 9px; }
+  .attendance-response { padding-top: 19px; }
+  .rsvp-button { margin-top: 15px; }
 }
 
 @media (min-width: 701px) and (max-height: 760px) {

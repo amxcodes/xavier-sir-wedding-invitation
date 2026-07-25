@@ -1,0 +1,13 @@
+{
+  "name": "xavier-sir-wedding-invitation",
+  "private": true,
+  "scripts": {
+    "check": "node --check script.js",
+    "convex:dev": "convex dev",
+    "convex:codegen": "convex codegen",
+    "convex:deploy": "convex deploy"
+  },
+  "devDependencies": {
+    "convex": "^1.42.3"
+  }
+}

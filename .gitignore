@@ -2,3 +2,8 @@
 .DS_Store
 Thumbs.db
 desktop.ini
+
+.env.local
+node_modules/
+.convex/
+convex/_generated/ai/

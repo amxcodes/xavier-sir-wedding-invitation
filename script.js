@@ -6,7 +6,13 @@ const cinematicIntro = document.querySelector('#cinematicIntro');
 const cinematicVideo = cinematicIntro?.querySelector('.cinematic-video');
 const invitation = document.querySelector('#invitation');
 const trigger = document.querySelector('#openInvite');
-const rsvpButton = document.querySelector('#rsvpButton');
+const attendanceSection = document.querySelector('#rsvp');
+const guestDecrease = document.querySelector('#guestDecrease');
+const guestIncrease = document.querySelector('#guestIncrease');
+const guestCount = document.querySelector('#guestCount');
+const acceptInvite = document.querySelector('#acceptInvite');
+const attendanceStatus = document.querySelector('#attendanceStatus');
+const attendeeTotal = document.querySelector('#attendeeTotal');
 const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 let smoothScroller = null;
 const AudioContextConstructor = window.AudioContext || window.webkitAudioContext;
@@ -17,6 +23,95 @@ let cinematicPlaybackStarted = false;
 let cinematicFinalRequested = false;
 let cinematicFinalLocked = false;
 let cinematicFinalLockTimer = 0;
+let selectedGuests = 1;
+let inviteAccepted = false;
+let attendanceSaving = false;
+
+const inviteStorageKey = 'xavier-dreama-invite-token';
+const attendanceEndpoint = attendanceSection?.dataset.attendanceEndpoint || window.INVITATION_ATTENDANCE_ENDPOINT || '';
+
+function getInviteToken() {
+  let inviteToken = window.localStorage.getItem(inviteStorageKey);
+
+  if (!inviteToken) {
+    const uuid = window.crypto?.randomUUID?.();
+    inviteToken = uuid || `invite-${Date.now()}-${Math.random().toString(36).slice(2, 14)}`;
+    window.localStorage.setItem(inviteStorageKey, inviteToken);
+  }
+
+  return inviteToken;
+}
+
+function renderAttendance() {
+  if (!attendanceSection) return;
+
+  guestCount.textContent = String(selectedGuests);
+  guestDecrease.disabled = selectedGuests <= 1 || attendanceSaving;
+  guestIncrease.disabled = selectedGuests >= 8 || attendanceSaving;
+  acceptInvite.disabled = attendanceSaving || !attendanceEndpoint;
+  acceptInvite.querySelector('span').textContent = attendanceSaving
+    ? 'Saving your response…'
+    : inviteAccepted
+      ? 'Update invitation'
+      : 'Accept invitation';
+}
+
+function setAttendanceStatus(message = '', isError = false) {
+  if (!attendanceStatus) return;
+  attendanceStatus.textContent = message;
+  attendanceStatus.classList.toggle('is-error', isError);
+}
+
+async function loadAttendance() {
+  if (!attendanceEndpoint) {
+    setAttendanceStatus('Invitation service is being prepared.');
+    renderAttendance();
+    return;
+  }
+
+  try {
+    const response = await fetch(`${attendanceEndpoint}?token=${encodeURIComponent(getInviteToken())}`);
+    if (!response.ok) throw new Error('Could not load invitation');
+
+    const invite = await response.json();
+    selectedGuests = Math.min(8, Math.max(1, Number(invite.guests) || 1));
+    inviteAccepted = Boolean(invite.accepted);
+    attendeeTotal.textContent = Number(invite.totalGuests || 0).toLocaleString('en-IN');
+    setAttendanceStatus(inviteAccepted ? 'Your invitation is accepted.' : '');
+  } catch {
+    setAttendanceStatus('We could not reach the invitation service. Please try again shortly.', true);
+  }
+
+  renderAttendance();
+}
+
+async function saveAttendance() {
+  if (!attendanceEndpoint || attendanceSaving) return;
+
+  attendanceSaving = true;
+  setAttendanceStatus('');
+  renderAttendance();
+
+  try {
+    const response = await fetch(attendanceEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ inviteToken: getInviteToken(), guests: selectedGuests })
+    });
+    if (!response.ok) throw new Error('Could not save invitation');
+
+    const invite = await response.json();
+    selectedGuests = Number(invite.guests) || selectedGuests;
+    inviteAccepted = Boolean(invite.accepted);
+    attendeeTotal.textContent = Number(invite.totalGuests || 0).toLocaleString('en-IN');
+    setAttendanceStatus('Your place is reserved. We cannot wait to celebrate with you.');
+  } catch {
+    setAttendanceStatus('We could not save your response. Please try again.', true);
+  } finally {
+    attendanceSaving = false;
+    renderAttendance();
+  }
+}
 
 function getEnvelopeAudio() {
   if (!AudioContextConstructor) return null;
@@ -316,10 +411,18 @@ trigger.addEventListener('click', (event) => {
   openInvitation();
 });
 
-rsvpButton?.addEventListener('click', () => {
-  const message = encodeURIComponent("Hello, I would like to RSVP for Xavier and Dreama's wedding.");
-  window.open(`https://wa.me/?text=${message}`, '_blank', 'noopener,noreferrer');
+guestDecrease?.addEventListener('click', () => {
+  selectedGuests = Math.max(1, selectedGuests - 1);
+  renderAttendance();
 });
+
+guestIncrease?.addEventListener('click', () => {
+  selectedGuests = Math.min(8, selectedGuests + 1);
+  renderAttendance();
+});
+
+acceptInvite?.addEventListener('click', saveAttendance);
+loadAttendance();
 
 cinematicVideo?.addEventListener('ended', showCinematicFinalFrame);
 
@@ -333,15 +436,6 @@ cinematicVideo?.addEventListener('timeupdate', () => {
     showCinematicFinalFrame();
   }
 });
-
-if ('IntersectionObserver' in window && cinematicIntro) {
-  const cinematicStateObserver = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting || !cinematicPlaybackStarted) return;
-    showCinematicFinalFrame({ immediate: true });
-  }, { threshold: 0 });
-
-  cinematicStateObserver.observe(cinematicIntro);
-}
 
 if ('IntersectionObserver' in window) {
   const invitationRevealObserver = new IntersectionObserver((entries, observer) => {
