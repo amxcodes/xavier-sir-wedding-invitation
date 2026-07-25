@@ -385,6 +385,45 @@ button { font: inherit; }
 .cinematic-intro.is-final-locked .cinematic-video {
   visibility: hidden;
 }
+.cinematic-scroll-cue {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: max(28px, calc(env(safe-area-inset-bottom) + 18px));
+  left: 0;
+  display: grid;
+  justify-items: center;
+  gap: 3px;
+  margin: 0;
+  color: rgba(73, 46, 41, .7);
+  font: 600 .62rem/1.2 "DM Sans", sans-serif;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 7px, 0);
+  transition: opacity .5s cubic-bezier(.2,.72,.18,1), transform .5s cubic-bezier(.2,.72,.18,1);
+}
+.cinematic-scroll-cue svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.65;
+}
+.cinematic-intro.is-ended .cinematic-scroll-cue {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cinematic-intro.is-final-locked .cinematic-scroll-cue svg { animation: cinematic-scroll-nudge 1.8s ease-in-out 1s infinite; }
+}
+@keyframes cinematic-scroll-nudge {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, 4px, 0); }
+}
 
 /* Invitation */
 .invitation {
