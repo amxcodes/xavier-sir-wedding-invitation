@@ -1321,19 +1321,60 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 }
 .attendance-choice-button.is-selected { border-color: #fffaf4; color: var(--berry-deep); background: #fff9f2; }
 .attendance-choice-button:active { transform: scale(.97); }
+.attendance-label--party {
+  width: min(100%, 280px);
+  margin-top: 24px;
+  margin-bottom: -4px;
+}
 .attendance-events {
   display: grid;
-  gap: 9px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
   width: min(100%, 280px);
-  margin: 22px 0 0;
+  margin: 24px 0 0;
   padding: 0;
   border: 0;
   text-align: left;
   transition: opacity .18s ease;
 }
-.attendance-events legend { margin-bottom: 10px; padding: 0; color: rgba(255,244,238,.82); font: 700 .71rem/1 "DM Sans", sans-serif; letter-spacing: .15em; text-transform: uppercase; }
-.attendance-events label { display: flex; align-items: center; gap: 9px; color: rgba(255,244,238,.82); font: 500 .84rem/1.25 "DM Sans", sans-serif; cursor: pointer; }
-.attendance-events input { width: 15px; height: 15px; margin: 0; accent-color: #fff9f2; }
+.attendance-events legend { grid-column: 1 / -1; margin: 0 0 4px; padding: 0; color: rgba(255,244,238,.82); font: 700 .71rem/1 "DM Sans", sans-serif; letter-spacing: .15em; text-transform: uppercase; }
+.attendance-events label {
+  position: relative;
+  display: grid;
+  min-height: 64px;
+  place-items: center;
+  padding: 10px 6px;
+  border: 1px solid rgba(255,244,238,.28);
+  color: rgba(255,244,238,.76);
+  background: rgba(57,5,27,.12);
+  font: 650 .68rem/1.2 "DM Sans", sans-serif;
+  letter-spacing: .02em;
+  text-align: center;
+  cursor: pointer;
+  transition: color .18s ease, background-color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.attendance-events input { position: absolute; inline-size: 1px; block-size: 1px; opacity: 0; }
+.attendance-events label::after {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  display: grid;
+  width: 14px;
+  height: 14px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--berry-deep);
+  background: #fff9f2;
+  content: "✓";
+  font: 800 .58rem/1 "DM Sans", sans-serif;
+  opacity: 0;
+  transform: scale(.25);
+  transition: opacity .18s cubic-bezier(.2,0,0,1), transform .18s cubic-bezier(.2,0,0,1);
+}
+.attendance-events label:has(input:checked) { border-color: #fff9f2; color: var(--berry-deep); background: #fff9f2; box-shadow: 0 8px 18px rgba(46,4,21,.16); }
+.attendance-events label:has(input:checked)::after { opacity: 1; transform: scale(1); }
+.attendance-events label:active { transform: scale(.96); }
+.attendance-events label:focus-within { outline: 2px solid rgba(255,249,242,.85); outline-offset: 3px; }
 .attendance-events:disabled, .rsvp.is-declined .guest-stepper, .rsvp.is-declined .attendance-events { opacity: .35; }
 .rsvp.is-declined .attendance-label--detail { opacity: .35; }
 
@@ -1564,6 +1605,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   }
   .attendance-response { width: min(100%, 320px); padding: 28px 0 0; border-top: 1px solid rgba(255,244,238,.25); border-left: 0; }
   .attendance-name-label, .attendance-label--choice { justify-self: center; }
+  .attendance-label--party { justify-self: center; }
   .attendance-events { text-align: left; }
   .rsvp-button {
     width: min(100%, 282px);
