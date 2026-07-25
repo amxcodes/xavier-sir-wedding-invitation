@@ -346,6 +346,7 @@ button { font: inherit; }
   height: 100svh;
   min-height: 520px;
   overflow: hidden;
+  contain: layout paint;
   background: #f1e4d8;
 }
 .cinematic-final-frame,
@@ -358,17 +359,21 @@ button { font: inherit; }
   object-fit: cover;
   object-position: center;
 }
-.cinematic-final-frame { z-index: 1; }
+.cinematic-final-frame { z-index: 1; overflow: hidden; }
 .cinematic-final-frame img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: inherit;
-  object-position: inherit;
+  object-fit: cover;
+  object-position: 50% 50%;
 }
 .cinematic-video {
   z-index: 2;
   opacity: 1;
+  object-position: 50% 50%;
+  will-change: opacity;
   transition-property: opacity;
   transition-duration: 780ms;
   transition-timing-function: cubic-bezier(.2,.72,.18,1);
@@ -378,7 +383,7 @@ button { font: inherit; }
   pointer-events: none;
 }
 .cinematic-intro.is-final-locked .cinematic-video {
-  display: none;
+  visibility: hidden;
 }
 
 /* Invitation */
@@ -1095,7 +1100,6 @@ button { font: inherit; }
   .envelope-screen.is-handoff { transform: translate3d(0, -103%, 0) scale(.988); }
   .cinematic-intro {
     height: 100svh;
-    height: 100dvh;
     min-height: 0;
   }
   .cinematic-final-frame,
