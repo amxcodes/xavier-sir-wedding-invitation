@@ -1166,7 +1166,7 @@ button { font: inherit; }
   min-height: 0;
 }
 .betrothal-detail-date small { display: block; color: #315366; font: 600 .72rem/1 "DM Sans", sans-serif; letter-spacing: .16em; text-transform: uppercase; }
-.betrothal-detail-date strong { display: block; align-self: center; color: #267dac; font: 500 clamp(5.4rem, 10vw, 7.6rem)/1 "DM Sans", sans-serif; letter-spacing: -.1em; font-variant-numeric: tabular-nums; }
+.betrothal-detail-date strong { display: block; align-self: center; box-sizing: content-box; padding-bottom: .2em; color: #267dac; font: 500 clamp(5.4rem, 10vw, 7.6rem)/1 "Playfair Display", serif; letter-spacing: -.065em; font-variant-numeric: tabular-nums; }
 .betrothal-locations { display: grid; gap: clamp(42px, 5vw, 62px); }
 .betrothal-location {
   display: grid;
