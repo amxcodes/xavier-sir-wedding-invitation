@@ -1129,15 +1129,15 @@ button { font: inherit; }
   max-width: 900px;
   margin: 0 auto;
   color: #162735;
-  font: 500 clamp(2.35rem, 5.45vw, 5rem)/1.08 "Playfair Display", serif;
-  letter-spacing: -.045em;
+  font: 400 clamp(4.25rem, 8.2vw, 7.4rem)/.9 "Great Vibes", "Cormorant Garamond", cursive;
+  letter-spacing: -.018em;
   text-wrap: balance;
 }
 .betrothal h2 span {
   display: block;
-  margin: .29em 0 .34em;
+  margin: clamp(5px, .7vh, 8px) 0 clamp(6px, .8vh, 9px);
   color: #3287b8;
-  font: 500 .72em/.74 "Great Vibes", cursive;
+  font: 500 italic clamp(1.22rem, 1.9vw, 1.6rem)/1 "Cormorant Garamond", serif;
 }
 .betrothal-details {
   padding: clamp(78px, 9vw, 122px) clamp(24px, 6vw, 92px);
@@ -1164,13 +1164,14 @@ button { font: inherit; }
 .betrothal-detail-date > span:first-child { border-right: 1px solid rgba(38,125,172,.48); }
 .betrothal-detail-date > span:last-child { border-left: 1px solid rgba(38,125,172,.48); }
 .betrothal-detail-date div {
-  display: grid;
-  grid-template-rows: 1.1rem minmax(0, 1fr) 1.1rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  min-height: clamp(145px, 16vw, 184px);
+  gap: 5px;
+  min-height: 0;
 }
-.betrothal-detail-date small { align-self: center; font: 600 .65rem/1 "DM Sans", sans-serif; letter-spacing: .13em; text-transform: uppercase; }
-.betrothal-detail-date strong { align-self: center; font: 500 clamp(5.5rem, 9.6vw, 7.6rem)/.88 "Playfair Display", serif; letter-spacing: -.065em; font-variant-numeric: tabular-nums; }
+.betrothal-detail-date small { display: block; align-self: center; font: 600 .65rem/1 "DM Sans", sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+.betrothal-detail-date strong { display: block; align-self: center; padding: .04em 0 .1em; font: 500 clamp(5.5rem, 9.6vw, 7.6rem)/.8 "Cormorant Garamond", serif; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .betrothal-locations { display: grid; gap: clamp(35px, 4vw, 52px); }
 .betrothal-location {
   display: grid;
@@ -1460,13 +1461,13 @@ button { font: inherit; }
   .betrothal-scripture { max-width: 310px; margin-bottom: 48px; font-size: 1.33rem; }
   .betrothal-intro { max-width: 310px; margin-bottom: 24px; font-size: 1.18rem; }
   .betrothal-kicker { margin-bottom: 10px; font-size: 1.46rem; }
-  .betrothal h2 { max-width: 360px; font-size: clamp(2.2rem, 10vw, 3rem); }
-  .betrothal h2 span { margin: .34em 0 .4em; }
+  .betrothal h2 { max-width: 360px; font-size: clamp(2.65rem, 13vw, 3.55rem); line-height: .88; }
+  .betrothal h2 span { margin: 5px 0 6px; font-size: 1.12rem; line-height: 1; }
   .betrothal-details { padding: 66px 22px 78px; }
   .betrothal-details-layout { grid-template-columns: 1fr; gap: 52px; width: min(100%, 420px); }
   .betrothal-detail-date { grid-template-columns: 1fr minmax(122px, 142px) 1fr; font-size: clamp(1.1rem, 5vw, 1.42rem); }
   .betrothal-detail-date > span { padding: .45em .25em; }
-  .betrothal-detail-date div { grid-template-rows: .9rem minmax(0, 1fr) .9rem; min-height: 122px; }
+  .betrothal-detail-date div { gap: 4px; }
   .betrothal-detail-date strong { font-size: clamp(4.8rem, 23vw, 6.1rem); }
   .betrothal-detail-date small { font-size: .55rem; }
   .betrothal-locations { gap: 40px; }
