@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="assets/envelope-motion-00.webp?v=5" fetchpriority="high" />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=12" />
   </head>
   <body class="is-locked">
     <main>
@@ -85,6 +85,36 @@
         </p>
       </section>
 
+      <section class="families scroll-reveal" aria-labelledby="familiesTitle">
+        <div class="families-inner">
+          <p class="families-overline">Two families · one promise</p>
+          <h2 id="familiesTitle">Introducing the families</h2>
+
+          <div class="families-layout">
+            <article class="family family--xavier">
+              <p class="family-role">The groom’s family</p>
+              <h3>Xavier</h3>
+              <p class="family-parents">Mrs. Mary Mathew<br />&amp; Mr. Mathew Kattikaran</p>
+              <p class="family-note">With the blessings of<br />Mrs. Ammini Joseph Kattikaran</p>
+            </article>
+
+            <div class="family-promise">
+              <span class="family-line" aria-hidden="true"></span>
+              <img src="assets/heart.svg" alt="" />
+              <p>With love, faith<br />and every blessing</p>
+              <span class="family-line" aria-hidden="true"></span>
+            </div>
+
+            <article class="family family--dreama">
+              <p class="family-role">The bride’s family</p>
+              <h3>Dreama</h3>
+              <p class="family-parents">Mrs. Jisha Antony Elenjikkal<br />&amp; Mr. Tomy Joseph Veliyil</p>
+              <p class="family-note">Together in prayer<br />and celebration</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="invitation" id="invitation" aria-labelledby="coupleNames" hidden>
         <div class="invitation-inner">
           <div class="invitation-prologue">
@@ -156,9 +186,9 @@
       <section class="betrothal scroll-reveal" aria-labelledby="betrothalTitle">
         <div class="betrothal-inner">
           <p class="betrothal-scripture">“Love is patient, love is kind. It always protects, always trusts, always hopes, always perseveres.” <span>— 1 Corinthians 13:4, 7</span></p>
-          <p class="betrothal-intro">With the blessings of the Almighty, together with our families, we joyfully invite you to</p>
-          <p class="betrothal-kicker">The Betrothal Ceremony of</p>
-          <h2 id="betrothalTitle">Xavier Kattikaran <span>and</span> Dreama Maria</h2>
+          <p class="betrothal-intro">With the blessings of the Almighty, together with our families</p>
+          <p class="betrothal-kicker">we joyfully invite you to</p>
+          <h2 id="betrothalTitle">The Betrothal <span>Ceremony</span></h2>
         </div>
       </section>
 
@@ -182,7 +212,11 @@
         <p class="betrothal-closing">Your prayers, presence, and blessings will make our joy complete.</p>
       </section>
 
-      <section class="memory-story" aria-label="Photographs of Xavier and Dreama">
+      <section class="memory-story" aria-labelledby="storyTitle">
+        <header class="memory-intro">
+          <p>Our story</p>
+          <h2 id="storyTitle">Small moments, held forever</h2>
+        </header>
         <div class="memory-chapter memory-chapter--opening">
           <figure class="memory-frame memory-frame--bench">
             <button class="memory-open" type="button" data-photo="assets/story-bench-wide.jpeg" aria-label="Enlarge photograph of Xavier and Dreama seated together">

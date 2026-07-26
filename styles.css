@@ -735,14 +735,33 @@ button { font: inherit; }
 /* Editorial photographic passage */
 .memory-story {
   position: relative;
-  padding: clamp(52px, 6vw, 88px) clamp(20px, 4vw, 64px) clamp(62px, 7vw, 104px);
+  padding: clamp(70px, 8vw, 120px) clamp(20px, 4vw, 64px) clamp(76px, 9vw, 132px);
   overflow: clip;
   background:
-    repeating-linear-gradient(6deg, rgba(111,78,63,.025) 0 1px, transparent 1px 6px),
-    repeating-linear-gradient(96deg, rgba(255,255,255,.6) 0 1px, transparent 1px 9px),
-    radial-gradient(circle at 12% 10%, rgba(197,55,113,.07), transparent 24%),
-    radial-gradient(circle at 88% 78%, rgba(197,55,113,.06), transparent 26%),
+    linear-gradient(rgba(255,250,245,.14), rgba(255,250,245,.16)),
+    url("assets/promise-garden.webp") center / cover no-repeat,
     #f8f1e8;
+}
+.memory-intro {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 620px);
+  margin: 0 auto clamp(46px, 6vw, 78px);
+  color: #3c1828;
+  text-align: center;
+}
+.memory-intro p {
+  margin: 0 0 13px;
+  color: var(--berry-deep);
+  font: 700 .69rem/1 "DM Sans", sans-serif;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.memory-intro h2 {
+  margin: 0;
+  font: 500 clamp(2.7rem, 5.5vw, 5.1rem)/.98 "Playfair Display", serif;
+  letter-spacing: -.045em;
+  text-wrap: balance;
 }
 .memory-chapter {
   position: relative;
@@ -767,7 +786,8 @@ button { font: inherit; }
     0 1px 1px rgba(53,31,37,.05),
     0 7px 20px rgba(53,31,37,.11),
     0 18px 38px rgba(53,31,37,.07);
-  transform: rotate(var(--print-tilt, 0deg));
+  transform: translate3d(var(--frame-x, 0), var(--frame-y, 0), 0) rotate(var(--print-tilt, 0deg));
+  transition: transform .32s cubic-bezier(.2,.72,.18,1), box-shadow .32s cubic-bezier(.2,.72,.18,1);
 }
 .enhanced .memory-frame {
   opacity: 1;
@@ -840,37 +860,48 @@ button { font: inherit; }
     scale(var(--photo-scale, 1.035));
 }
 .memory-frame--bench {
+  --frame-y: 7px;
   --print-tilt: -.8deg;
   --tape-tilt: 1.8deg;
-  grid-column: 3 / span 8;
+  grid-column: 3 / span 7;
 }
 .memory-frame--night {
+  --frame-x: 1.6vw;
+  --frame-y: 14px;
   --print-tilt: -1.35deg;
   --tape-tilt: -2.4deg;
-  grid-column: 2 / span 4;
+  grid-column: 2 / span 5;
 }
 .memory-frame--window {
+  --frame-x: -1.2vw;
+  --frame-y: -24px;
   --print-tilt: .95deg;
   --tape-tilt: 2deg;
-  grid-column: 8 / span 4;
-  margin-top: clamp(28px, 4vw, 58px);
+  grid-column: 8 / span 3;
+  margin-top: clamp(22px, 3vw, 42px);
 }
 .memory-frame--watercolour {
+  --frame-x: .8vw;
+  --frame-y: 3px;
   --print-tilt: .7deg;
   --tape-tilt: -1.5deg;
   grid-column: 2 / span 3;
 }
 .memory-frame--park {
+  --frame-x: -.8vw;
+  --frame-y: 35px;
   --print-tilt: -1deg;
   --tape-tilt: 1.5deg;
-  grid-column: 5 / span 3;
-  margin-top: clamp(30px, 4vw, 58px);
+  grid-column: 5 / span 4;
+  margin-top: clamp(22px, 3vw, 44px);
 }
 .memory-frame--hands {
+  --frame-x: -1vw;
+  --frame-y: -9px;
   --print-tilt: 1.2deg;
   --tape-tilt: -2deg;
-  grid-column: 8 / span 3;
-  margin-top: clamp(10px, 1.8vw, 26px);
+  grid-column: 9 / span 3;
+  margin-top: clamp(4px, 1vw, 16px);
 }
 .memory-frame--bench .memory-open { aspect-ratio: 16 / 9; }
 .memory-frame--night .memory-open,
@@ -884,6 +915,12 @@ button { font: inherit; }
 .memory-frame--watercolour img { object-position: 58% 68%; }
 .memory-frame--park img { object-position: center 60%; }
 .memory-frame--hands img { object-position: center 54%; }
+@media (hover: hover) and (pointer: fine) {
+  .memory-frame:hover {
+    transform: translate3d(var(--frame-x, 0), calc(var(--frame-y, 0) - 5px), 0) rotate(var(--print-tilt, 0deg));
+    box-shadow: 0 2px 2px rgba(53,31,37,.06), 0 14px 28px rgba(53,31,37,.14), 0 28px 48px rgba(53,31,37,.09);
+  }
+}
 .photo-viewer {
   width: min(94vw, 1100px);
   max-width: none;
@@ -931,6 +968,89 @@ button { font: inherit; }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* A shared family chapter — two sides, held by the dates ahead. */
+.families {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: clamp(94px, 11vw, 158px) clamp(24px, 6vw, 92px);
+  color: var(--ink);
+  background:
+    url("assets/families-botanical-background.png") left center / auto 100% no-repeat,
+    url("assets/families-botanical-background.png") right center / auto 100% no-repeat,
+    #fffaf7;
+}
+.families::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(255, 252, 248, .68) 0%, rgba(255, 252, 248, .28) 43%, transparent 72%);
+  pointer-events: none;
+}
+.families-inner { position: relative; z-index: 1; width: min(100%, 1120px); margin: 0 auto; text-align: center; }
+.families-overline {
+  margin: 0 0 12px;
+  color: #a76b47;
+  font: 700 .69rem/1 "DM Sans", sans-serif;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+.families h2 {
+  margin: 0;
+  color: #341b29;
+  font: 500 clamp(2.35rem, 5vw, 4.35rem)/.95 "Playfair Display", serif;
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+.families-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, .66fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: clamp(28px, 5.6vw, 82px);
+  margin-top: clamp(48px, 7vw, 86px);
+}
+.family { display: grid; justify-items: center; align-content: center; min-width: 0; }
+.family-role {
+  margin: 0 0 15px;
+  color: #b56a6e;
+  font: 700 .64rem/1 "DM Sans", sans-serif;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.family h3 {
+  margin: 0;
+  color: #4a2135;
+  font: 500 clamp(2.8rem, 5vw, 4.8rem)/.86 "Great Vibes", cursive;
+  letter-spacing: -.03em;
+}
+.family-parents {
+  margin: 22px 0 0;
+  color: #513947;
+  font: 500 clamp(.9rem, 1.4vw, 1.03rem)/1.55 "DM Sans", sans-serif;
+  text-wrap: balance;
+}
+.family-note {
+  margin: 22px 0 0;
+  color: #a6755b;
+  font: 500 italic clamp(.92rem, 1.4vw, 1.06rem)/1.42 "Cormorant Garamond", serif;
+  text-wrap: balance;
+}
+.family-promise {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 14px;
+  min-height: 236px;
+  color: #6e4852;
+}
+.family-line { width: 1px; height: 26px; background: linear-gradient(transparent, #c98987, transparent); }
+.family-promise > img { width: 28px; height: 28px; }
+.family-promise > p {
+  margin: 0;
+  font: 500 italic 1.08rem/1.15 "Cormorant Garamond", serif;
+  text-wrap: balance;
+}
 /* Compact invitation details */
 .event {
   position: relative;
@@ -1429,6 +1549,37 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 }
 .enhanced .scroll-reveal .attendance-response { transition-delay: .1s; }
 
+/* The family chapter is revealed in three independent beats, so its centre
+   marker remains optically still while the two sides arrive around it. */
+.enhanced .families .families-overline,
+.enhanced .families h2,
+.enhanced .families .family,
+.enhanced .families .family-promise {
+  opacity: 0;
+  filter: blur(4px);
+  transition-property: opacity, transform, filter;
+  transition-duration: 520ms;
+  transition-timing-function: cubic-bezier(.2,.72,.18,1);
+  will-change: transform, opacity, filter;
+}
+.enhanced .families .families-overline,
+.enhanced .families h2,
+.enhanced .families .family-promise { transform: translate3d(0, 14px, 0); }
+.enhanced .families .family--xavier { transform: translate3d(-22px, 10px, 0); }
+.enhanced .families .family--dreama { transform: translate3d(22px, 10px, 0); }
+.enhanced .families.is-visible .families-overline,
+.enhanced .families.is-visible h2,
+.enhanced .families.is-visible .family,
+.enhanced .families.is-visible .family-promise {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+}
+.enhanced .families.is-visible h2 { transition-delay: 80ms; }
+.enhanced .families.is-visible .family--xavier { transition-delay: 160ms; }
+.enhanced .families.is-visible .family-promise { transition-delay: 240ms; }
+.enhanced .families.is-visible .family--dreama { transition-delay: 320ms; }
+
 /* RSVP response controls */
 .attendance-name-label { justify-self: start; width: min(100%, 280px); }
 .attendance-name {
@@ -1518,6 +1669,34 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 .attendance-events label:focus-within { outline: 2px solid rgba(255,249,242,.85); outline-offset: 3px; }
 .attendance-events:disabled, .rsvp.is-declined .guest-stepper, .rsvp.is-declined .attendance-events { opacity: .35; }
 .rsvp.is-declined .attendance-label--detail { opacity: .35; }
+
+/* Keep the RSVP form optically centred once the two-column layout no longer has room. */
+@media (max-width: 960px) {
+  .rsvp {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: clamp(36px, 6vw, 52px);
+    text-align: center;
+  }
+  .attendance-copy { display: grid; justify-items: center; }
+  .attendance-note { margin-inline: auto; }
+  .attendance-response {
+    justify-self: center;
+    width: min(100%, 340px);
+    padding: 28px 0 0;
+    border-top: 1px solid rgba(255,244,238,.25);
+    border-left: 0;
+  }
+  .attendance-name-label,
+  .attendance-label--choice,
+  .attendance-label--party,
+  .attendance-label--detail {
+    justify-self: center;
+    text-align: center;
+  }
+  .attendance-events { text-align: center; }
+  .attendance-events legend { text-align: center; }
+}
 
 @media (hover: hover) and (pointer: fine) {
   .venue-card:hover { transform: translateY(-2px); }
@@ -1657,32 +1836,47 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .couple { align-self: center; }
   .celebrant { align-self: end; font-size: .72rem; line-height: 1.23; }
   .memory-story {
-    padding: 46px 0 58px;
+    padding: 62px 0 72px;
+    background-position: center top;
   }
+  .memory-intro { width: min(100% - 44px, 320px); margin-bottom: 38px; }
+  .memory-intro p { margin-bottom: 10px; font-size: .62rem; }
+  .memory-intro h2 { font-size: clamp(2.35rem, 11vw, 3.25rem); }
   .memory-chapter { display: flow-root; width: 100%; }
   .memory-chapter + .memory-chapter { margin-top: 28px; }
   .memory-frame { padding: 5px 5px 11px; }
   .memory-frame--bench {
+    --frame-y: 2px;
     width: 80%;
     margin-inline: auto;
   }
   .memory-frame--night {
+    --frame-x: 0;
+    --frame-y: 8px;
     width: 64%;
     margin-left: 6%;
   }
   .memory-frame--window {
+    --frame-x: 0;
+    --frame-y: -8px;
     width: 62%;
     margin: 12px 6% 0 auto;
   }
   .memory-frame--watercolour {
+    --frame-x: 0;
+    --frame-y: 2px;
     width: 56%;
     margin: 0 7% 0 auto;
   }
   .memory-frame--park {
+    --frame-x: 0;
+    --frame-y: 14px;
     width: 66%;
     margin: 14px 0 0 5%;
   }
   .memory-frame--hands {
+    --frame-x: 0;
+    --frame-y: -4px;
     width: 60%;
     margin: 12px 6% 0 auto;
   }
@@ -1696,6 +1890,36 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     right: 12px;
   }
   .event { padding: 68px 22px 78px; }
+  .families {
+    padding: 80px 22px 88px;
+    background: url("assets/families-botanical-background.png") center / cover no-repeat, #fffaf7;
+  }
+  .families-overline { margin-bottom: 11px; font-size: .61rem; letter-spacing: .2em; }
+  .families h2 { font-size: clamp(2.15rem, 10.6vw, 3.08rem); }
+  .families-layout {
+    grid-template-columns: 1fr;
+    gap: 42px;
+    margin-top: 48px;
+  }
+  .family { max-width: 290px; margin: 0 auto; }
+  .family--xavier { grid-row: 1; }
+  .family--dreama { grid-row: 3; }
+  .family-role { margin-bottom: 12px; font-size: .59rem; }
+  .family h3 { font-size: clamp(3.18rem, 16vw, 4.2rem); }
+  .family-parents { margin-top: 15px; font-size: .88rem; line-height: 1.48; }
+  .family-note { margin-top: 14px; font-size: .94rem; }
+  .family-promise {
+    grid-row: 2;
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: 12px;
+    padding: 0;
+  }
+  .family-promise .family-line { display: none; }
+  .family-promise > img { width: 25px; height: 25px; margin-bottom: -2px; }
+  .family-promise > p { font-size: 1rem; }
+  .enhanced .families .family--xavier,
+  .enhanced .families .family--dreama { transform: translate3d(0, 14px, 0); }
   .event-layout {
     grid-template-columns: 1fr;
     gap: 58px;
@@ -1749,7 +1973,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .attendance-response { width: min(100%, 320px); padding: 28px 0 0; border-top: 1px solid rgba(255,244,238,.25); border-left: 0; }
   .attendance-name-label, .attendance-label--choice { justify-self: center; }
   .attendance-label--party { justify-self: center; }
-  .attendance-events { text-align: left; }
+  .attendance-events, .attendance-events legend { text-align: center; }
   .rsvp-button {
     width: min(100%, 282px);
     min-height: 52px;
@@ -1820,6 +2044,10 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .enhanced .scroll-reveal .betrothal-details-layout,
   .enhanced .scroll-reveal .attendance-copy,
   .enhanced .scroll-reveal .attendance-response { opacity: 1; transform: none; }
+  .enhanced .families .families-overline,
+  .enhanced .families h2,
+  .enhanced .families .family,
+  .enhanced .families .family-promise { opacity: 1; filter: none; transform: none; }
 }
 
 @media (max-width: 700px) and (max-height: 640px) {
