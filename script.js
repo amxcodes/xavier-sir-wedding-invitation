@@ -6,6 +6,7 @@ const cinematicIntro = document.querySelector('#cinematicIntro');
 const cinematicVideo = cinematicIntro?.querySelector('.cinematic-video');
 const invitation = document.querySelector('#invitation');
 const trigger = document.querySelector('#openInvite');
+const stopMotionFrames = Array.from(document.querySelectorAll('.envelope-stopmotion-frame'));
 const attendanceSection = document.querySelector('#rsvp');
 const guestDecrease = document.querySelector('#guestDecrease');
 const guestIncrease = document.querySelector('#guestIncrease');
@@ -31,6 +32,37 @@ let selectedGuests = 1;
 let inviteAccepted = false;
 let attendanceSaving = false;
 let attending = true;
+
+function enableStopMotionWhenReady() {
+  if (!opening || !stopMotionFrames.length) return;
+
+  let remaining = stopMotionFrames.length;
+  let hasError = false;
+  const settle = () => {
+    remaining -= 1;
+    if (remaining > 0) return;
+    if (!hasError) opening.classList.add('is-stopmotion-ready');
+  };
+
+  stopMotionFrames.forEach((frame) => {
+    if (frame.complete) {
+      if (!frame.naturalWidth) hasError = true;
+      settle();
+      return;
+    }
+    frame.addEventListener('load', settle, { once: true });
+    frame.addEventListener('error', () => {
+      hasError = true;
+      settle();
+    }, { once: true });
+  });
+}
+
+enableStopMotionWhenReady();
+
+function setStopMotionFrame(frame) {
+  if (opening) opening.dataset.stopFrame = frame;
+}
 
 const inviteStorageKey = 'xavier-dreama-invite-token';
 const attendanceEndpoint = attendanceSection?.dataset.attendanceEndpoint || window.INVITATION_ATTENDANCE_ENDPOINT || '';
@@ -414,16 +446,29 @@ function openInvitation() {
 
   if (motionQuery.matches) {
     opening.classList.add('is-opening', 'is-flap-open', 'is-flap-settled', 'is-lifted', 'is-handoff');
+    setStopMotionFrame('letter');
     startCinematicPlayback();
     finishOpening();
     return;
   }
 
-  window.setTimeout(() => opening.classList.add('is-opening'), 90);
-  window.setTimeout(() => opening.classList.add('is-flap-open'), 290);
-  window.setTimeout(() => opening.classList.add('is-seal-released'), 560);
-  window.setTimeout(() => opening.classList.add('is-paper-rising'), 840);
-  window.setTimeout(() => opening.classList.add('is-flap-settled', 'is-lifted'), 1080);
+  window.setTimeout(() => {
+    opening.classList.add('is-opening');
+    setStopMotionFrame('release');
+  }, 80);
+  window.setTimeout(() => {
+    opening.classList.add('is-seal-released');
+    setStopMotionFrame('half-open');
+  }, 380);
+  window.setTimeout(() => {
+    opening.classList.add('is-flap-open');
+    setStopMotionFrame('open');
+  }, 620);
+  window.setTimeout(() => {
+    opening.classList.add('is-paper-rising');
+    setStopMotionFrame('letter');
+  }, 920);
+  window.setTimeout(() => opening.classList.add('is-flap-settled', 'is-lifted'), 1180);
   window.setTimeout(startCinematicPlayback, 2300);
   window.setTimeout(() => opening.classList.add('is-handoff'), 2470);
   window.setTimeout(finishOpening, 3080);

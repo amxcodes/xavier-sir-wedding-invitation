@@ -47,7 +47,10 @@ button { font: inherit; }
   width: 100vw;
   height: 100svh;
   overflow: hidden;
-  background: var(--envelope-red-deep);
+  background:
+    url("assets/paper-grain.svg") center / 192px 192px repeat,
+    radial-gradient(circle at 50% 40%, rgba(255,255,255,.78), transparent 42%),
+    linear-gradient(160deg, #fbf7ef 0%, #f2e8dc 100%);
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
   transition-property: transform, opacity;
@@ -74,6 +77,71 @@ button { font: inherit; }
   overflow: hidden;
   transform-style: preserve-3d;
   contain: layout paint;
+}
+.envelope-stopmotion {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+  background: transparent;
+  pointer-events: none;
+  transition: opacity 120ms linear;
+}
+.envelope-stopmotion-frame {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
+  opacity: 0;
+  transition: opacity 60ms steps(1, end);
+}
+.envelope-stopmotion-frame--closed { opacity: 1; }
+.envelope-stopmotion-names {
+  position: absolute;
+  z-index: 1;
+  top: 47.5%;
+  left: 50%;
+  width: min(24vw, 250px);
+  opacity: 0;
+  transform: translate3d(-50%, calc(-50% + 8px), 0) scale(.98);
+  transition: opacity 120ms linear, transform 180ms cubic-bezier(.2,.72,.18,1);
+}
+.envelope-screen.is-stopmotion-ready .envelope-stopmotion { opacity: 1; }
+.envelope-screen.is-stopmotion-ready .envelope-back,
+.envelope-screen.is-stopmotion-ready .paper-sheet,
+.envelope-screen.is-stopmotion-ready .envelope-flap,
+.envelope-screen.is-stopmotion-ready .envelope-pocket,
+.envelope-screen.is-stopmotion-ready .envelope-scene::after {
+  opacity: 0;
+  pointer-events: none;
+}
+.envelope-screen.is-stopmotion-ready.is-paper-rising .envelope-stopmotion-names,
+.envelope-screen.is-stopmotion-ready.is-lifted .envelope-stopmotion-names {
+  opacity: 1;
+  transform: translate3d(-50%, -50%, 0) scale(1);
+}
+.envelope-screen.is-stopmotion-ready[data-stop-frame="release"] .envelope-stopmotion-frame--closed,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="half-open"] .envelope-stopmotion-frame--closed,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="open"] .envelope-stopmotion-frame--closed,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--closed { opacity: 0; }
+.envelope-screen.is-stopmotion-ready[data-stop-frame="release"] .envelope-stopmotion-frame--release,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="half-open"] .envelope-stopmotion-frame--half-open,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="open"] .envelope-stopmotion-frame--open,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--letter { opacity: 1; }
+.envelope-screen.is-stopmotion-ready[data-stop-frame="half-open"] .envelope-stopmotion-frame--release,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="open"] .envelope-stopmotion-frame--release,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--release,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="open"] .envelope-stopmotion-frame--half-open,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--half-open,
+.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--open { opacity: 0; }
+.envelope-screen.is-stopmotion-ready .wax-seal {
+  top: 62.7%;
+  width: clamp(52px, 9.5dvh, 155px);
 }
 .envelope-scene::after {
   content: "";
@@ -1455,7 +1523,8 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     transition-timing-function: cubic-bezier(.2,.72,.18,1);
     will-change: transform, opacity;
     background:
-      radial-gradient(circle at 50% 42%, rgba(255,255,255,.78), transparent 38%),
+      url("assets/paper-grain.svg") center / 192px 192px repeat,
+      radial-gradient(circle at 50% 40%, rgba(255,255,255,.78), transparent 42%),
       linear-gradient(160deg, #fbf7ef 0%, #f2e8dc 100%);
   }
   .petal-layer span:nth-child(n + 7) { display: none; }
@@ -1471,17 +1540,28 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .envelope-trigger { min-height: 100%; perspective: 1100px; }
   .envelope-scene {
     inset: auto;
-    top: 52%;
+    top: 50%;
     left: 50%;
-    width: min(108vw, 720px);
-    height: min(80vw, 520px);
-    overflow: hidden;
-    transform: translate(-50%, -50%);
+    width: min(94vw, 520px);
+    height: min(75svh, 760px);
+    overflow: visible;
+    transform: translate3d(-50%, -50%, 0);
     transform-style: flat;
     perspective: 1100px;
-    box-shadow:
-      0 34px 64px rgba(83, 39, 55, .2),
-      0 4px 12px rgba(83, 39, 55, .1);
+    box-shadow: none;
+  }
+  .envelope-stopmotion {
+    overflow: visible;
+    background: transparent;
+  }
+  .envelope-stopmotion-frame {
+    object-fit: contain;
+    object-position: 50% 50%;
+  }
+  .envelope-stopmotion-names { width: min(55%, 260px); }
+  .envelope-screen.is-stopmotion-ready .wax-seal {
+    top: 61.5%;
+    width: clamp(48px, 13.7vw, 68px);
   }
   .envelope-back::after, .envelope-flap::after, .envelope-pocket::after {
     background-size: 184px 184px, auto, auto;
