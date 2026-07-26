@@ -69,7 +69,14 @@ button { font: inherit; }
   perspective: 1600px;
   touch-action: none;
 }
-.envelope-trigger:focus-visible { outline: 3px solid #fff; outline-offset: -8px; }
+.envelope-trigger:focus-visible {
+  outline: none;
+}
+.envelope-trigger:focus-visible .open-instruction {
+  outline: 2px solid rgba(133, 29, 72, .7);
+  outline-offset: 6px;
+  border-radius: 2px;
+}
 .envelope-scene {
   position: absolute;
   inset: 0;
@@ -84,10 +91,10 @@ button { font: inherit; }
   inset: 0;
   display: block;
   overflow: hidden;
-  opacity: 0;
+  opacity: 1;
   background: transparent;
   pointer-events: none;
-  transition: opacity 120ms linear;
+  transition: none;
 }
 .envelope-stopmotion-frame {
   position: absolute;
@@ -97,10 +104,30 @@ button { font: inherit; }
   height: 100%;
   object-fit: contain;
   object-position: 50% 50%;
-  opacity: 0;
-  transition: opacity 60ms steps(1, end);
+  opacity: 1;
 }
-.envelope-stopmotion-frame--closed { opacity: 1; }
+.envelope-stopmotion-animation {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
+  opacity: 0;
+}
+.envelope-screen.is-stopmotion-playing .envelope-stopmotion-frame--closed { opacity: 0; }
+.envelope-screen.is-stopmotion-playing .envelope-stopmotion-animation { opacity: 1; }
+.envelope-back,
+.paper-sheet,
+.envelope-flap,
+.envelope-pocket,
+.envelope-scene::after {
+  opacity: 0;
+  pointer-events: none;
+}
+.envelope-screen.is-stopmotion-error .envelope-stopmotion { opacity: 1; }
 .envelope-stopmotion-names {
   position: absolute;
   z-index: 1;
@@ -111,7 +138,6 @@ button { font: inherit; }
   transform: translate3d(-50%, calc(-50% + 8px), 0) scale(.98);
   transition: opacity 120ms linear, transform 180ms cubic-bezier(.2,.72,.18,1);
 }
-.envelope-screen.is-stopmotion-ready .envelope-stopmotion { opacity: 1; }
 .envelope-screen.is-stopmotion-ready .envelope-back,
 .envelope-screen.is-stopmotion-ready .paper-sheet,
 .envelope-screen.is-stopmotion-ready .envelope-flap,
@@ -125,20 +151,6 @@ button { font: inherit; }
   opacity: 1;
   transform: translate3d(-50%, -50%, 0) scale(1);
 }
-.envelope-screen.is-stopmotion-ready[data-stop-frame="release"] .envelope-stopmotion-frame--closed,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="half-open"] .envelope-stopmotion-frame--closed,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="open"] .envelope-stopmotion-frame--closed,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--closed { opacity: 0; }
-.envelope-screen.is-stopmotion-ready[data-stop-frame="release"] .envelope-stopmotion-frame--release,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="half-open"] .envelope-stopmotion-frame--half-open,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="open"] .envelope-stopmotion-frame--open,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--letter { opacity: 1; }
-.envelope-screen.is-stopmotion-ready[data-stop-frame="half-open"] .envelope-stopmotion-frame--release,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="open"] .envelope-stopmotion-frame--release,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--release,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="open"] .envelope-stopmotion-frame--half-open,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--half-open,
-.envelope-screen.is-stopmotion-ready[data-stop-frame="letter"] .envelope-stopmotion-frame--open { opacity: 0; }
 .envelope-screen.is-stopmotion-ready .wax-seal {
   top: 62.7%;
   width: clamp(52px, 9.5dvh, 155px);
@@ -152,7 +164,7 @@ button { font: inherit; }
   background:
     radial-gradient(ellipse at 50% 100%, rgba(255,255,255,.06), transparent 42%),
     linear-gradient(150deg, #9f1d3d 0%, #730d29 100%);
-  opacity: 1;
+  opacity: 0;
   pointer-events: none;
   transition-property: opacity;
   transition-duration: 180ms;
@@ -293,10 +305,10 @@ button { font: inherit; }
 .wax-seal {
   position: absolute;
   z-index: 6;
-  top: 53%;
+  top: 62.7%;
   left: 50%;
   display: grid;
-  width: clamp(82px, 11vw, 110px);
+  width: clamp(52px, 9.5dvh, 155px);
   aspect-ratio: 1;
   place-items: center;
   overflow: visible;
@@ -410,7 +422,10 @@ button { font: inherit; }
     0 6px 13px rgba(55,9,28,.17),
     0 1px 3px rgba(55,9,28,.12);
 }
-.envelope-screen.is-opening .open-instruction { transform: translate(-50%, 48px); }
+.envelope-screen.is-opening .open-instruction {
+  outline: none;
+  transform: translate(-50%, 48px);
+}
 .envelope-screen.is-flap-open .envelope-flap { z-index: 4; animation: envelope-flap-unfold .8s cubic-bezier(.18,.88,.2,1) both; }
 .envelope-screen.is-flap-open .envelope-flap::after { opacity: .58; }
 .envelope-screen.is-flap-settled .envelope-flap { z-index: 0; }
@@ -1592,14 +1607,14 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     transition: transform .82s cubic-bezier(.2,.72,.18,1);
   }
   .wax-seal {
-    top: 54%;
-    width: clamp(62px, 17vw, 74px);
+    top: 61.5%;
+    width: clamp(48px, 13.7vw, 68px);
     transition-property: transform, opacity;
     transition-duration: .56s, .28s;
     transition-timing-function: cubic-bezier(.2,.72,.18,1);
   }
   .envelope-screen.is-seal-released .wax-seal {
-    opacity: .56;
+    opacity: .08;
     transform: translate3d(-50%, calc(-50% - min(4vw, 30px)), 0) rotate(-4deg) scale(.94, .86);
   }
   .open-instruction {

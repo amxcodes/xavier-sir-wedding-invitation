@@ -6,7 +6,13 @@ const cinematicIntro = document.querySelector('#cinematicIntro');
 const cinematicVideo = cinematicIntro?.querySelector('.cinematic-video');
 const invitation = document.querySelector('#invitation');
 const trigger = document.querySelector('#openInvite');
-const stopMotionFrames = Array.from(document.querySelectorAll('.envelope-stopmotion-frame'));
+const stopMotionClosedFrame = document.querySelector('.envelope-stopmotion-frame--closed');
+const stopMotionAnimation = document.querySelector('.envelope-stopmotion-animation');
+const stopMotionFrameOrder = [0, 1, 2, 5, 3, 4, 6, 7];
+const stopMotionFrameUrls = stopMotionFrameOrder.map(
+  (index) => `assets/envelope-motion-${String(index).padStart(2, '0')}.webp?v=5`,
+);
+const stopMotionFrameStarts = [0, 180, 340, 460, 580, 700, 870, 1130];
 const attendanceSection = document.querySelector('#rsvp');
 const guestDecrease = document.querySelector('#guestDecrease');
 const guestIncrease = document.querySelector('#guestIncrease');
@@ -32,36 +38,50 @@ let selectedGuests = 1;
 let inviteAccepted = false;
 let attendanceSaving = false;
 let attending = true;
+let stopMotionFrameImages = [];
 
-function enableStopMotionWhenReady() {
-  if (!opening || !stopMotionFrames.length) return;
+async function enableStopMotionWhenReady() {
+  if (!opening || !stopMotionClosedFrame || !stopMotionAnimation) return false;
 
-  let remaining = stopMotionFrames.length;
-  let hasError = false;
-  const settle = () => {
-    remaining -= 1;
-    if (remaining > 0) return;
-    if (!hasError) opening.classList.add('is-stopmotion-ready');
-  };
-
-  stopMotionFrames.forEach((frame) => {
-    if (frame.complete) {
-      if (!frame.naturalWidth) hasError = true;
-      settle();
-      return;
+  try {
+    if (!stopMotionClosedFrame.complete) {
+      await new Promise((resolve, reject) => {
+        stopMotionClosedFrame.addEventListener('load', resolve, { once: true });
+        stopMotionClosedFrame.addEventListener('error', reject, { once: true });
+      });
     }
-    frame.addEventListener('load', settle, { once: true });
-    frame.addEventListener('error', () => {
-      hasError = true;
-      settle();
-    }, { once: true });
-  });
+    if (!stopMotionClosedFrame.naturalWidth) throw new Error('Envelope frame failed to load.');
+    if (typeof stopMotionClosedFrame.decode === 'function') await stopMotionClosedFrame.decode();
+
+    stopMotionFrameImages = await Promise.all(stopMotionFrameUrls.map((source) => new Promise((resolve, reject) => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.addEventListener('load', () => resolve(image), { once: true });
+      image.addEventListener('error', reject, { once: true });
+      image.src = source;
+    })));
+    await Promise.all(stopMotionFrameImages.map((image) => (
+      typeof image.decode === 'function' ? image.decode().catch(() => {}) : Promise.resolve()
+    )));
+    opening.classList.add('is-stopmotion-ready');
+    return true;
+  } catch {
+    opening.classList.add('is-stopmotion-error');
+    return false;
+  }
 }
 
-enableStopMotionWhenReady();
+const stopMotionReady = enableStopMotionWhenReady();
 
-function setStopMotionFrame(frame) {
-  if (opening) opening.dataset.stopFrame = frame;
+function startStopMotionAnimation() {
+  if (!stopMotionAnimation || stopMotionFrameImages.length !== stopMotionFrameUrls.length) return;
+  stopMotionAnimation.src = stopMotionFrameUrls[0];
+  opening.classList.add('is-stopmotion-playing');
+  stopMotionFrameStarts.slice(1).forEach((start, index) => {
+    window.setTimeout(() => {
+      stopMotionAnimation.src = stopMotionFrameUrls[index + 1];
+    }, start);
+  });
 }
 
 const inviteStorageKey = 'xavier-dreama-invite-token';
@@ -421,7 +441,7 @@ function startCinematicPlayback() {
   }
 }
 
-function openInvitation() {
+async function openInvitation() {
   if (opening.classList.contains('is-pressed')) return;
   if (motionQuery.matches) {
     playSealRelease();
@@ -443,10 +463,11 @@ function openInvitation() {
   }
   opening.classList.add('is-pressed');
   trigger.setAttribute('aria-expanded', 'true');
+  await stopMotionReady;
 
   if (motionQuery.matches) {
     opening.classList.add('is-opening', 'is-flap-open', 'is-flap-settled', 'is-lifted', 'is-handoff');
-    setStopMotionFrame('letter');
+    startStopMotionAnimation();
     startCinematicPlayback();
     finishOpening();
     return;
@@ -454,24 +475,21 @@ function openInvitation() {
 
   window.setTimeout(() => {
     opening.classList.add('is-opening');
-    setStopMotionFrame('release');
+    startStopMotionAnimation();
   }, 80);
   window.setTimeout(() => {
     opening.classList.add('is-seal-released');
-    setStopMotionFrame('half-open');
-  }, 380);
+  }, 390);
   window.setTimeout(() => {
     opening.classList.add('is-flap-open');
-    setStopMotionFrame('open');
-  }, 620);
+  }, 700);
   window.setTimeout(() => {
     opening.classList.add('is-paper-rising');
-    setStopMotionFrame('letter');
-  }, 920);
-  window.setTimeout(() => opening.classList.add('is-flap-settled', 'is-lifted'), 1180);
-  window.setTimeout(startCinematicPlayback, 2300);
-  window.setTimeout(() => opening.classList.add('is-handoff'), 2470);
-  window.setTimeout(finishOpening, 3080);
+  }, 1040);
+  window.setTimeout(() => opening.classList.add('is-flap-settled', 'is-lifted'), 1420);
+  window.setTimeout(startCinematicPlayback, 2500);
+  window.setTimeout(() => opening.classList.add('is-handoff'), 2700);
+  window.setTimeout(finishOpening, 3300);
 }
 
 trigger.addEventListener('pointerdown', beginPaperRub);
