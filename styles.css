@@ -1526,26 +1526,50 @@ body.is-petal-active .petal-layer {
   --drift: 6vw;
   position: absolute;
   top: -12vh;
-  width: 10px;
-  height: 15px;
-  border-radius: 80% 18% 80% 18%;
-  background: linear-gradient(135deg, rgba(252,205,218,.9), rgba(190,59,108,.54));
-  opacity: .42;
+  width: 11px;
+  height: 16px;
+  border-radius: 76% 24% 78% 22%;
+  background:
+    radial-gradient(ellipse at 28% 24%, rgba(255,255,255,.78) 0 8%, transparent 27%),
+    linear-gradient(135deg, rgba(253,212,224,.92), rgba(199,48,108,.62));
+  box-shadow: 1px 2px 5px rgba(91, 35, 58, .12);
+  opacity: .46;
   animation: petal-fall 22s linear infinite;
   animation-play-state: paused;
   will-change: transform;
 }
+.petal-layer span:nth-child(3n + 2) {
+  width: 8px;
+  height: 18px;
+  border-radius: 92% 12% 84% 16%;
+  background: linear-gradient(140deg, rgba(255,237,212,.9), rgba(191,113,117,.56));
+  opacity: .34;
+}
+.petal-layer span:nth-child(3n) {
+  width: 12px;
+  height: 12px;
+  border-radius: 78% 22% 78% 22%;
+  background: linear-gradient(135deg, rgba(230,192,224,.86), rgba(126,72,128,.54));
+  opacity: .31;
+}
 body.is-petal-active .petal-layer span { animation-play-state: running; }
 body.is-petals-paused .petal-layer span { animation-play-state: paused; }
-.petal-layer span:nth-child(1) { left: 6%; --drift: 8vw; animation-duration: 24s; animation-delay: -13s; }
-.petal-layer span:nth-child(2) { left: 17%; --drift: -6vw; width: 7px; height: 11px; animation-duration: 19s; animation-delay: -5s; }
-.petal-layer span:nth-child(3) { left: 31%; --drift: 11vw; animation-duration: 29s; animation-delay: -18s; }
-.petal-layer span:nth-child(4) { left: 47%; --drift: -10vw; width: 8px; height: 12px; animation-duration: 21s; animation-delay: -9s; }
-.petal-layer span:nth-child(5) { left: 62%; --drift: 7vw; animation-duration: 26s; animation-delay: -21s; }
-.petal-layer span:nth-child(6) { left: 74%; --drift: -8vw; width: 7px; height: 11px; animation-duration: 20s; animation-delay: -14s; }
-.petal-layer span:nth-child(7) { left: 85%; --drift: 5vw; animation-duration: 27s; animation-delay: -7s; }
-.petal-layer span:nth-child(8) { left: 93%; --drift: -7vw; width: 8px; height: 13px; animation-duration: 23s; animation-delay: -16s; }
-.petal-layer span:nth-child(9) { left: 39%; --drift: -4vw; width: 6px; height: 9px; animation-duration: 18s; animation-delay: -11s; }
+.petal-layer span:nth-child(1) { left: 4%; --drift: 8vw; animation-duration: 24s; animation-delay: -13s; }
+.petal-layer span:nth-child(2) { left: 11%; --drift: -6vw; animation-duration: 19s; animation-delay: -5s; }
+.petal-layer span:nth-child(3) { left: 18%; --drift: 9vw; animation-duration: 29s; animation-delay: -18s; }
+.petal-layer span:nth-child(4) { left: 27%; --drift: -10vw; animation-duration: 21s; animation-delay: -9s; }
+.petal-layer span:nth-child(5) { left: 35%; --drift: 7vw; animation-duration: 26s; animation-delay: -21s; }
+.petal-layer span:nth-child(6) { left: 43%; --drift: -8vw; animation-duration: 20s; animation-delay: -14s; }
+.petal-layer span:nth-child(7) { left: 51%; --drift: 5vw; animation-duration: 27s; animation-delay: -7s; }
+.petal-layer span:nth-child(8) { left: 59%; --drift: -7vw; animation-duration: 23s; animation-delay: -16s; }
+.petal-layer span:nth-child(9) { left: 67%; --drift: 6vw; animation-duration: 18s; animation-delay: -11s; }
+.petal-layer span:nth-child(10) { left: 73%; --drift: -5vw; animation-duration: 25s; animation-delay: -3s; }
+.petal-layer span:nth-child(11) { left: 80%; --drift: 9vw; animation-duration: 28s; animation-delay: -17s; }
+.petal-layer span:nth-child(12) { left: 87%; --drift: -8vw; animation-duration: 22s; animation-delay: -8s; }
+.petal-layer span:nth-child(13) { left: 94%; --drift: 4vw; animation-duration: 30s; animation-delay: -24s; }
+.petal-layer span:nth-child(14) { left: 23%; --drift: -3vw; animation-duration: 17s; animation-delay: -12s; }
+.petal-layer span:nth-child(15) { left: 55%; --drift: 4vw; animation-duration: 31s; animation-delay: -19s; }
+.petal-layer span:nth-child(16) { left: 91%; --drift: -5vw; animation-duration: 20s; animation-delay: -15s; }
 @keyframes petal-fall {
   from { transform: translate3d(0, -12vh, 0) rotate(0deg); }
   to { transform: translate3d(var(--drift), 112vh, 0) rotate(300deg); }
@@ -1743,7 +1767,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
       radial-gradient(circle at 50% 40%, rgba(255,255,255,.78), transparent 42%),
       linear-gradient(160deg, #fbf7ef 0%, #f2e8dc 100%);
   }
-  .petal-layer span:nth-child(n + 7) { display: none; }
+  .petal-layer span:nth-child(n + 11) { display: none; }
   .envelope-screen.is-handoff { transform: translate3d(0, -103%, 0) scale(.988); }
   .cinematic-intro {
     height: 100svh;
