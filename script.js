@@ -452,12 +452,9 @@ async function openInvitation() {
   cinematicIntro.hidden = false;
   if (cinematicVideo) {
     const portraitMobile = window.matchMedia('(max-width: 900px) and (orientation: portrait)').matches;
-    const compactLandscape = window.matchMedia('(max-width: 700px)').matches;
     cinematicVideo.poster = portraitMobile
       ? 'assets/palace-wedding-first-mobile-v2.webp'
-      : compactLandscape
-        ? 'assets/palace-wedding-first-desktop.webp'
-        : 'assets/palace-wedding-first-desktop-v2.webp';
+      : 'assets/invitation-reveal-desktop-poster.jpg';
     cinematicVideo.preload = 'auto';
     cinematicVideo.load();
   }

@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="assets/envelope-motion-00.webp?v=5" fetchpriority="high" />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=14" />
+    <link rel="stylesheet" href="styles.css?v=22" />
   </head>
   <body class="is-locked">
     <main>
@@ -51,8 +51,8 @@
             srcset="assets/invitation-reveal-mobile-final.jpg"
           />
           <img
-            src="assets/palace-wedding-final-hq.png"
-            alt="The wedding of Xavier Kattikaran and Dreama Maria in a palace garden"
+            src="assets/invitation-reveal-desktop-final.png"
+            alt="The wedding of Xavier Kattikaran and Dreama Maria in a floral watercolour garden"
             width="1672"
             height="941"
             decoding="async"
@@ -64,7 +64,7 @@
           muted
           playsinline
           preload="metadata"
-          poster="assets/palace-wedding-first-desktop.webp"
+          poster="assets/invitation-reveal-desktop-poster.jpg"
           aria-hidden="true"
         >
           <source
@@ -74,11 +74,11 @@
           />
           <source src="assets/palace-wedding-intro-480.mp4" type="video/mp4" media="(max-width: 700px)" />
           <source
-            src="assets/palace-wedding-intro-desktop-720-v2.mp4"
+            src="assets/invitation-reveal-desktop-1100.mp4"
             type="video/mp4"
             media="(max-width: 1366px)"
           />
-          <source src="assets/palace-wedding-intro-desktop-1600-v2.mp4" type="video/mp4" />
+          <source src="assets/invitation-reveal-desktop-1600.mp4" type="video/mp4" />
         </video>
         <p class="cinematic-scroll-cue" aria-hidden="true">
           <span>Scroll to continue</span>
@@ -86,62 +86,33 @@
         </p>
       </section>
 
-      <section class="families scroll-reveal" aria-labelledby="familiesTitle">
-        <div class="families-inner">
-          <p class="families-overline">Two families · one promise</p>
-          <h2 id="familiesTitle">Introducing the families</h2>
-
-          <div class="families-layout">
-            <article class="family family--xavier">
-              <p class="family-role">The groom’s family</p>
-              <h3>Xavier</h3>
-              <p class="family-parents">Mrs. Mary Mathew<br />&amp; Mr. Mathew Kattikaran</p>
-              <p class="family-note">With the blessings of<br />Mrs. Ammini Joseph Kattikaran</p>
-            </article>
-
-            <div class="family-promise">
-              <span class="family-line" aria-hidden="true"></span>
-              <img src="assets/heart.svg" alt="" />
-              <p>With love, faith<br />and every blessing</p>
-              <span class="family-line" aria-hidden="true"></span>
-            </div>
-
-            <article class="family family--dreama">
-              <p class="family-role">The bride’s family</p>
-              <h3>Dreama</h3>
-              <p class="family-parents">Mrs. Jisha Antony Elenjikkal<br />&amp; Mr. Tomy Joseph Veliyil</p>
-              <p class="family-note">Together in prayer<br />and celebration</p>
-            </article>
-          </div>
+      <section class="announcement" aria-labelledby="announcementTitle">
+        <div class="announcement-inner">
+          <p class="announcement-eyebrow">With joyful hearts</p>
+          <h2 id="announcementTitle">We are getting married</h2>
+          <div class="announcement-names"><span>Xavier</span><div class="marriage-seal" aria-hidden="true"><img src="assets/initials.svg" alt="" /></div><span>Dreama</span></div>
         </div>
       </section>
 
-      <section class="invitation" id="invitation" aria-labelledby="coupleNames" hidden>
-        <div class="invitation-inner">
+      <section class="invitation" id="invitation" aria-label="Wedding invitation" hidden>
+        <div class="invitation-inner invitation-inner--compact">
           <div class="invitation-prologue">
             <p class="scripture">“Therefore what God has joined together, let no one separate.”</p>
             <img class="heart-mark" src="assets/heart.svg" alt="" />
 
             <p class="host">
               Mrs. Ammini Joseph Kattikaran<br />
-              <span>W/o Mr. K. M. Joseph Kattikaran (Late)</span>
+              <span>W/o Late Mr. K. M. Joseph Kattikaran</span>
             </p>
 
             <p class="request-copy">
               With hearts full of gratitude and joy, cordially request the honour of your gracious presence,
-              together with your family, as we witness a dream come true — the marriage of our beloved grandson
+              together with your family, as we witness a dream come true — the marriage of my beloved son
             </p>
-          </div>
 
-          <div class="couple" id="coupleNames">
-            <div class="person">
-              <h1>Xavier Kattikaran</h1>
-              <p>Beloved son of Mrs. Mary Mathew &amp; Mr. Mathew Kattikaran</p>
-            </div>
-            <span class="with">with</span>
-            <div class="person">
-              <h1>Dreama Maria</h1>
-              <p>Beloved daughter of Mrs. Jisha Antony Elenjikkal &amp; Mr. Tomy Joseph Veliyil</p>
+            <div class="invitation-families" aria-label="The families">
+              <p><b>The groom’s family</b><span>Mrs. Mary Mathew &amp; Mr. Mathew Kattikaran</span></p>
+              <p><b>The bride’s family</b><span>Mrs. Jisha Antony &amp; Mr. Tomy Joseph</span></p>
             </div>
           </div>
 
@@ -186,31 +157,31 @@
 
       <section class="betrothal scroll-reveal" aria-labelledby="betrothalTitle">
         <div class="betrothal-inner">
-          <p class="betrothal-scripture">“Love is patient, love is kind. It always protects, always trusts, always hopes, always perseveres.” <span>— 1 Corinthians 13:4, 7</span></p>
-          <p class="betrothal-intro">With the blessings of the Almighty, together with our families</p>
-          <p class="betrothal-kicker">we joyfully invite you to</p>
+          <p class="betrothal-intro">With joyful hearts, we invite you to</p>
           <h2 id="betrothalTitle">The Betrothal <span>Ceremony</span></h2>
         </div>
       </section>
 
       <section class="betrothal-details scroll-reveal" aria-labelledby="betrothalDetailsTitle">
-        <div class="betrothal-details-layout">
-          <div class="betrothal-detail-date" id="betrothalDetailsTitle" aria-label="Saturday 5 September 2026 at 4:30 PM">
-            <span>Saturday</span>
-            <div><strong>05</strong><small>September 2026 · 4:30 PM</small></div>
+        <div class="event-layout betrothal-event-layout">
+          <div class="event-date" id="betrothalDetailsTitle" aria-label="Saturday 5 September 2026 at 4:30 PM">
+            <span class="weekday">Saturday</span>
+            <div class="day day--betrothal"><strong>05</strong></div>
+            <span class="month"><span>September</span><small>2026 · 4:30 PM</small></span>
           </div>
-          <div class="betrothal-locations">
-            <a class="betrothal-location" href="https://www.google.com/maps/search/?api=1&amp;query=Mar%20Sleeya%20Church%20Vannapuram" target="_blank" rel="noreferrer">
+          <div class="venues" aria-label="Betrothal day venues">
+            <a class="venue-card" href="https://www.google.com/maps/search/?api=1&amp;query=Mar%20Sleeya%20Church%20Vannapuram" target="_blank" rel="noreferrer">
               <img src="assets/location.svg" alt="" />
-              <span class="betrothal-location-copy"><b>Betrothal ceremony</b><strong>Mar Sleeya Church</strong><small>Vannapuram</small><em>Directions ↗</em></span>
+              <span class="venue-copy"><span class="venue-kind">Betrothal ceremony</span><strong>Mar Sleeya Church</strong><small>Vannapuram</small></span>
+              <span class="venue-action">Directions <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
             </a>
-            <a class="betrothal-location" href="https://www.google.com/maps/search/?api=1&amp;query=Clouds%20Village%20Thodupuzha" target="_blank" rel="noreferrer">
+            <a class="venue-card" href="https://www.google.com/maps/search/?api=1&amp;query=Clouds%20Village%20Thodupuzha" target="_blank" rel="noreferrer">
               <img src="assets/food.svg" alt="" />
-              <span class="betrothal-location-copy"><b>Reception · 5:30 PM</b><strong>Clouds Village</strong><small>Thodupuzha</small><em>Directions ↗</em></span>
+              <span class="venue-copy"><span class="venue-kind">Reception · 5:30 PM</span><strong>Clouds Village</strong><small>Thodupuzha</small></span>
+              <span class="venue-action">Directions <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
             </a>
           </div>
         </div>
-        <p class="betrothal-closing">Your prayers, presence, and blessings will make our joy complete.</p>
       </section>
 
       <section class="memory-story" aria-labelledby="storyTitle">

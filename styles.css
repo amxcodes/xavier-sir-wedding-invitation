@@ -585,11 +585,12 @@ button { font: inherit; }
   min-height: 0;
   overflow: hidden;
   background:
-    radial-gradient(circle at 8% 15%, rgba(225,121,166,.15), transparent 31%),
-    radial-gradient(circle at 90% 86%, rgba(225,121,166,.14), transparent 29%),
+    linear-gradient(rgba(255, 250, 246, .16), rgba(255, 250, 246, .12)),
+    url("assets/wedding-torn-paper-desktop.png") center / cover no-repeat,
     var(--paper);
 }
 .invitation::before {
+  display: none;
   content: "";
   position: absolute;
   z-index: 0;
@@ -708,6 +709,21 @@ button { font: inherit; }
   letter-spacing: .008em;
   text-wrap: pretty;
 }
+.invitation-families {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 48px);
+  width: min(100%, 720px);
+  margin: clamp(25px, 3.8vh, 42px) auto 0;
+}
+.invitation-families p { display: grid; gap: 7px; margin: 0; color: var(--muted); }
+.invitation-families b {
+  color: var(--berry);
+  font: 700 .63rem/1 "DM Sans", sans-serif;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.invitation-families span { font: 500 clamp(.78rem, 1.15vw, .94rem)/1.42 "Cormorant Garamond", serif; text-wrap: balance; }
 .couple {
   width: 100%;
   display: flex;
@@ -742,6 +758,14 @@ button { font: inherit; }
 }
 .celebrant strong { font-weight: 600; }
 .celebrant span { font-style: italic; }
+.invitation-inner--compact {
+  grid-template-rows: auto auto;
+  align-content: center;
+  gap: clamp(52px, 9vh, 92px);
+  max-width: 900px;
+}
+.invitation-inner--compact .invitation-prologue { align-self: center; }
+.invitation-inner--compact .celebrant { align-self: auto; }
 
 /* Editorial photographic passage */
 .memory-story {
@@ -778,6 +802,7 @@ button { font: inherit; }
   position: relative;
   z-index: 1;
   display: grid;
+  align-items: start;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: clamp(16px, 2vw, 30px);
   width: min(100%, 1240px);
@@ -785,6 +810,7 @@ button { font: inherit; }
 }
 .memory-chapter + .memory-chapter { margin-top: clamp(24px, 3.2vw, 46px); }
 .memory-frame {
+  align-self: start;
   position: relative;
   min-width: 0;
   margin: 0;
@@ -816,34 +842,6 @@ button { font: inherit; }
   background: #e6d3bb;
   box-shadow: 0 2px 5px rgba(67,46,37,.09);
   transform: translateX(-50%) rotate(var(--tape-tilt, -1deg));
-}
-.enhanced .memory-open::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  inset: -3% -2% -7%;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(7deg, rgba(121,88,72,.045) 0 1px, transparent 1px 5px),
-    repeating-linear-gradient(96deg, rgba(255,255,255,.7) 0 1px, transparent 1px 8px),
-    radial-gradient(circle at 28% 32%, rgba(104,72,57,.12) 0 .5px, transparent .8px),
-    #fbf6ed;
-  background-size: auto, auto, 7px 7px, auto;
-  clip-path: polygon(
-    0 0, 100% 0, 100% 93%,
-    97% 94.5%, 94% 92.7%, 91% 95.2%, 88% 93.4%,
-    85% 95.6%, 82% 93.1%, 79% 94.9%, 76% 92.8%,
-    73% 95.4%, 70% 93.2%, 67% 95%, 64% 92.9%,
-    61% 95.5%, 58% 93%, 55% 94.8%, 52% 92.6%,
-    49% 95.2%, 46% 93.4%, 43% 95.6%, 40% 92.9%,
-    37% 94.9%, 34% 93.1%, 31% 95.3%, 28% 92.7%,
-    25% 95.5%, 22% 93.2%, 19% 95%, 16% 92.8%,
-    13% 95.4%, 10% 93%, 7% 95.2%, 4% 93.1%, 0 94.8%
-  );
-  box-shadow: 0 12px 18px rgba(72,42,31,.13);
-  transform:
-    translate3d(var(--tear-x, 0%), var(--tear-y, 0%), 0)
-    rotate(var(--tear-angle, 0deg));
 }
 .memory-open {
   position: relative;
@@ -980,18 +978,18 @@ button { font: inherit; }
 }
 
 /* A shared family chapter — two sides, held by the dates ahead. */
-.families {
+.announcement {
   position: relative;
   isolation: isolate;
+  display: grid;
+  min-height: min(74svh, 760px);
+  place-items: center;
   overflow: clip;
   padding: clamp(94px, 11vw, 158px) clamp(24px, 6vw, 92px);
   color: var(--ink);
-  background:
-    url("assets/families-botanical-background.png") left center / auto 100% no-repeat,
-    url("assets/families-botanical-background.png") right center / auto 100% no-repeat,
-    #fffaf7;
+  background: url("assets/families-botanical-desktop.png") center / cover no-repeat, #fffaf7;
 }
-.families::before {
+.announcement::before {
   content: "";
   position: absolute;
   z-index: 0;
@@ -999,88 +997,81 @@ button { font: inherit; }
   background: radial-gradient(ellipse at center, rgba(255, 252, 248, .68) 0%, rgba(255, 252, 248, .28) 43%, transparent 72%);
   pointer-events: none;
 }
-.families::after {
+.announcement-inner { position: relative; z-index: 1; display: grid; justify-items: center; width: min(100%, 900px); text-align: center; }
+.marriage-seal {
+  position: relative;
+  display: grid;
+  width: clamp(92px, 9vw, 126px);
+  aspect-ratio: 1;
+  place-items: center;
+  overflow: visible;
+  border-radius: 45% 55% 48% 52% / 53% 46% 54% 47%;
+  background:
+    radial-gradient(circle at 31% 22%, rgba(255,255,255,.82), transparent 18%),
+    radial-gradient(circle at 55% 62%, #f5ead5 0 48%, #dbc7a8 74%, #b99a72 100%);
+  box-shadow:
+    inset 3px 4px 6px rgba(255,255,255,.78),
+    inset -5px -6px 9px rgba(104,69,43,.31);
+}
+.marriage-seal::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 10%;
+  border: 2px solid rgba(148,116,79,.34);
+  border-radius: 52% 48% 50% 50% / 47% 53% 46% 54%;
+  background:
+    radial-gradient(circle at 39% 31%, rgba(255,255,255,.56), transparent 22%),
+    radial-gradient(circle at 58% 63%, #f8eedb 0 55%, #ddc9aa 100%);
+  box-shadow: inset 2px 2px 3px rgba(255,255,255,.7), inset -3px -3px 5px rgba(100,66,41,.23);
+}
+.marriage-seal::after {
   content: "";
   position: absolute;
   z-index: 0;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: clamp(78px, 13vw, 142px);
+  inset: 0;
+  border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(to bottom, #fffaf7 0%, rgba(255, 250, 247, .84) 56%, transparent 100%);
+  background:
+    url("assets/paper-grain.svg"),
+    radial-gradient(circle at 72% 26%, rgba(105,68,41,.25) 0 .7px, transparent 1.3px),
+    radial-gradient(circle at 28% 72%, rgba(255,255,255,.72) 0 .65px, transparent 1.15px);
+  background-size: 84px 84px, 13px 13px, 11px 11px;
+  mix-blend-mode: multiply;
+  opacity: .27;
 }
-.families-inner { position: relative; z-index: 1; width: min(100%, 1120px); margin: 0 auto; text-align: center; }
-.families-overline {
-  margin: 0 0 12px;
+.marriage-seal img {
+  position: relative;
+  z-index: 2;
+  width: 56%;
+  height: auto;
+  filter: drop-shadow(-1px -1px 0 rgba(255,255,255,.74)) drop-shadow(1px 1px 0 rgba(91,38,60,.24));
+}
+.announcement-eyebrow {
+  margin: 0 0 13px;
   color: #a76b47;
-  font: 700 .69rem/1 "DM Sans", sans-serif;
+  font: 700 .68rem/1 "DM Sans", sans-serif;
   letter-spacing: .24em;
   text-transform: uppercase;
 }
-.families h2 {
+.announcement h2 {
   margin: 0;
   color: #341b29;
-  font: 500 clamp(2.35rem, 5vw, 4.35rem)/.95 "Playfair Display", serif;
-  letter-spacing: -.04em;
+  font: 500 clamp(2.25rem, 4.45vw, 3.9rem)/.98 "Playfair Display", serif;
+  letter-spacing: -.045em;
   text-wrap: balance;
 }
-.families-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(180px, .66fr) minmax(0, 1fr);
-  align-items: stretch;
-  gap: clamp(28px, 5.6vw, 82px);
-  margin-top: clamp(48px, 7vw, 86px);
-}
-.family { display: grid; justify-items: center; align-content: center; min-width: 0; }
-.family-role {
-  margin: 0 0 15px;
-  color: #b56a6e;
-  font: 700 .64rem/1 "DM Sans", sans-serif;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-}
-.family h3 {
-  margin: 0;
-  color: #4a2135;
-  font: 500 clamp(2.8rem, 5vw, 4.8rem)/.86 "Great Vibes", cursive;
-  letter-spacing: -.03em;
-}
-.family-parents {
-  margin: 22px 0 0;
-  color: #513947;
-  font: 500 clamp(.9rem, 1.4vw, 1.03rem)/1.55 "DM Sans", sans-serif;
-  text-wrap: balance;
-}
-.family-note {
-  margin: 22px 0 0;
-  color: #a6755b;
-  font: 500 italic clamp(.92rem, 1.4vw, 1.06rem)/1.42 "Cormorant Garamond", serif;
-  text-wrap: balance;
-}
-.family-promise {
-  display: grid;
-  justify-items: center;
-  align-content: center;
-  gap: 14px;
-  min-height: 236px;
-  color: #6e4852;
-}
-.family-line { width: 1px; height: 26px; background: linear-gradient(transparent, #c98987, transparent); }
-.family-promise > img { width: 28px; height: 28px; }
-.family-promise > p {
-  margin: 0;
-  font: 500 italic 1.08rem/1.15 "Cormorant Garamond", serif;
-  text-wrap: balance;
-}
+.announcement-names { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 3.7vw, 54px); margin-top: clamp(24px, 3.1vw, 38px); color: #8b315b; }
+.announcement-names span { font: 500 clamp(2.45rem, 5.4vw, 4.55rem)/.86 "Great Vibes", cursive; letter-spacing: -.03em; }
+.announcement-names .marriage-seal { flex: 0 0 auto; width: clamp(76px, 7vw, 104px); }
 /* Compact invitation details */
 .event {
   position: relative;
   padding: clamp(78px, 9vw, 128px) clamp(24px, 6vw, 92px);
   overflow: hidden;
   background:
-    radial-gradient(circle at 14% 18%, rgba(197,55,113,.08), transparent 30%),
-    radial-gradient(circle at 92% 82%, rgba(126,31,74,.045), transparent 34%),
+    linear-gradient(rgba(255,250,247,.09), rgba(255,250,247,.12)),
+    url("assets/wedding-torn-paper-desktop.png") center / cover no-repeat,
     #f5eae8;
 }
 .event-layout {
@@ -1368,11 +1359,9 @@ button { font: inherit; }
   color: #18394f;
   text-align: center;
   background:
-    radial-gradient(circle at 8% 10%, rgba(120,183,223,.28), transparent 26%),
-    radial-gradient(circle at 93% 24%, rgba(149,198,229,.28), transparent 25%),
-    radial-gradient(circle at 18% 92%, rgba(149,198,229,.23), transparent 24%),
-    radial-gradient(circle at 84% 83%, rgba(113,173,215,.18), transparent 28%),
-    linear-gradient(120deg, #eff8fc 0%, #fbfdfe 48%, #eaf6fc 100%);
+    linear-gradient(rgba(244,250,253,.1), rgba(244,250,253,.1)),
+    url("assets/betrothal-torn-paper-desktop.png") center / cover no-repeat,
+    #eef8fc;
 }
 .betrothal::before,
 .betrothal::after {
@@ -1425,13 +1414,10 @@ button { font: inherit; }
 .betrothal-details {
   padding: clamp(78px, 9vw, 122px) clamp(24px, 6vw, 92px);
   color: #18394f;
-  background: #eef8fc;
-}
-.betrothal-details-layout {
-  display: grid;
-  gap: clamp(58px, 7vw, 82px);
-  width: min(100%, 780px);
-  margin: 0 auto;
+  background:
+    linear-gradient(rgba(244,250,253,.08), rgba(244,250,253,.12)),
+    url("assets/betrothal-torn-paper-desktop.png") center / cover no-repeat,
+    #eef8fc;
 }
 .betrothal-detail-date {
   display: flex;
@@ -1467,6 +1453,15 @@ button { font: inherit; }
 .betrothal-location-copy em { margin-top: 4px; color: #2d7fab; font: 650 .71rem/1 "DM Sans", sans-serif; font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
 .betrothal-location:hover strong { color: #267dac; }
 .betrothal-closing { width: min(100% - 48px, 720px); margin: clamp(68px, 8vw, 104px) auto 0; color: #254a5f; font: 500 clamp(1rem, 1.8vw, 1.25rem)/1.45 "DM Sans", sans-serif; text-align: center; text-wrap: balance; }
+.betrothal-details .weekday,
+.betrothal-details .month small,
+.betrothal-details .venue-kind,
+.betrothal-details .venue-action { color: #2d7fab; }
+.betrothal-details .day { color: #267dac; }
+.betrothal-details .venue-copy strong { color: #18394f; }
+.betrothal-details .venue-copy small { color: #315366; }
+.betrothal-details .venue-card > img { filter: hue-rotate(115deg) saturate(.85); }
+.day--betrothal { padding-right: 0; }
 .closing {
   position: relative;
   display: grid;
@@ -1578,7 +1573,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 /* A short, scroll-triggered reveal rather than continuous scroll-tied animation. */
 .enhanced .scroll-reveal .event-layout,
 .enhanced .scroll-reveal .betrothal-inner,
-.enhanced .scroll-reveal .betrothal-details-layout,
+.enhanced .scroll-reveal .betrothal-event-layout,
 .enhanced .scroll-reveal .attendance-copy,
 .enhanced .scroll-reveal .attendance-response {
   opacity: 0;
@@ -1587,44 +1582,13 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 }
 .enhanced .scroll-reveal.is-visible .event-layout,
 .enhanced .scroll-reveal.is-visible .betrothal-inner,
-.enhanced .scroll-reveal.is-visible .betrothal-details-layout,
+.enhanced .scroll-reveal.is-visible .betrothal-event-layout,
 .enhanced .scroll-reveal.is-visible .attendance-copy,
 .enhanced .scroll-reveal.is-visible .attendance-response {
   opacity: 1;
   transform: none;
 }
 .enhanced .scroll-reveal .attendance-response { transition-delay: .1s; }
-
-/* The family chapter is revealed in three independent beats, so its centre
-   marker remains optically still while the two sides arrive around it. */
-.enhanced .families .families-overline,
-.enhanced .families h2,
-.enhanced .families .family,
-.enhanced .families .family-promise {
-  opacity: 0;
-  filter: blur(4px);
-  transition-property: opacity, transform, filter;
-  transition-duration: 520ms;
-  transition-timing-function: cubic-bezier(.2,.72,.18,1);
-  will-change: transform, opacity, filter;
-}
-.enhanced .families .families-overline,
-.enhanced .families h2,
-.enhanced .families .family-promise { transform: translate3d(0, 14px, 0); }
-.enhanced .families .family--xavier { transform: translate3d(-22px, 10px, 0); }
-.enhanced .families .family--dreama { transform: translate3d(22px, 10px, 0); }
-.enhanced .families.is-visible .families-overline,
-.enhanced .families.is-visible h2,
-.enhanced .families.is-visible .family,
-.enhanced .families.is-visible .family-promise {
-  opacity: 1;
-  filter: blur(0);
-  transform: translate3d(0, 0, 0);
-}
-.enhanced .families.is-visible h2 { transition-delay: 80ms; }
-.enhanced .families.is-visible .family--xavier { transition-delay: 160ms; }
-.enhanced .families.is-visible .family-promise { transition-delay: 240ms; }
-.enhanced .families.is-visible .family--dreama { transition-delay: 320ms; }
 
 /* RSVP response controls */
 .attendance-name-label { justify-self: start; width: min(100%, 280px); }
@@ -1872,10 +1836,24 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     /* Keep live copy within the deliberately clear middle of the paper artwork. */
     padding: max(22svh, calc(env(safe-area-inset-top) + 76px)) 14px max(14svh, calc(env(safe-area-inset-bottom) + 46px));
   }
+  .invitation-inner--compact {
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: clamp(48px, 9svh, 76px);
+  }
   .scripture { margin-bottom: 4px; font-size: .88rem; line-height: 1.14; }
   .heart-mark { width: 18px; margin-bottom: 7px; }
   .host { margin-bottom: 7px; font-size: 1.04rem; line-height: 1.08; }
   .request-copy { max-width: 350px; font-size: .64rem; line-height: 1.42; }
+  .invitation-families {
+    grid-template-columns: 1fr;
+    gap: 17px;
+    width: min(100%, 310px);
+    margin-top: 27px;
+  }
+  .invitation-families p { gap: 5px; }
+  .invitation-families b { font-size: .56rem; }
+  .invitation-families span { font-size: .76rem; line-height: 1.35; }
   .person h1 { font-size: clamp(2.65rem, 13vw, 3.55rem); line-height: .88; letter-spacing: -.018em; }
   .person p { max-width: 340px; margin-top: 7px; font-size: .6rem; line-height: 1.32; }
   .with { margin: 5px 0 6px; font-size: 1.12rem; line-height: 1; }
@@ -1935,37 +1913,17 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     top: max(-54px, calc(-1 * env(safe-area-inset-top) - 44px));
     right: 12px;
   }
-  .event { padding: 68px 22px 78px; }
-  .families {
+  .event { padding: max(14svh, 92px) 22px max(14svh, 96px); }
+  .announcement {
+    min-height: 78svh;
     padding: 80px 22px 88px;
     background: url("assets/families-botanical-background.png") center / cover no-repeat, #fffaf7;
   }
-  .families-overline { margin-bottom: 11px; font-size: .61rem; letter-spacing: .2em; }
-  .families h2 { font-size: clamp(2.15rem, 10.6vw, 3.08rem); }
-  .families-layout {
-    grid-template-columns: 1fr;
-    gap: 42px;
-    margin-top: 48px;
-  }
-  .family { max-width: 290px; margin: 0 auto; }
-  .family--xavier { grid-row: 1; }
-  .family--dreama { grid-row: 3; }
-  .family-role { margin-bottom: 12px; font-size: .59rem; }
-  .family h3 { font-size: clamp(3.18rem, 16vw, 4.2rem); }
-  .family-parents { margin-top: 15px; font-size: .88rem; line-height: 1.48; }
-  .family-note { margin-top: 14px; font-size: .94rem; }
-  .family-promise {
-    grid-row: 2;
-    grid-template-columns: 1fr;
-    min-height: 0;
-    gap: 12px;
-    padding: 0;
-  }
-  .family-promise .family-line { display: none; }
-  .family-promise > img { width: 25px; height: 25px; margin-bottom: -2px; }
-  .family-promise > p { font-size: 1rem; }
-  .enhanced .families .family--xavier,
-  .enhanced .families .family--dreama { transform: translate3d(0, 14px, 0); }
+  .announcement-eyebrow { margin-bottom: 11px; font-size: .59rem; letter-spacing: .2em; }
+  .announcement h2 { max-width: 310px; font-size: clamp(2.2rem, 10vw, 3.1rem); }
+  .announcement-names { gap: 17px; margin-top: 24px; }
+  .announcement-names span { font-size: clamp(2.35rem, 12vw, 3.4rem); }
+  .announcement-names .marriage-seal { width: clamp(68px, 20vw, 86px); }
   .event-layout {
     grid-template-columns: 1fr;
     gap: 58px;
@@ -2035,13 +1993,16 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
       url("assets/mobile-betrothal-torn-paper.webp") center / cover no-repeat,
       #eef8fc;
   }
-  .betrothal-scripture { max-width: 310px; margin-bottom: 36px; font-size: 1.33rem; }
-  .betrothal-intro { max-width: 282px; margin-bottom: 42px; font-size: .92rem; line-height: 1.55; }
-  .betrothal-kicker { margin-bottom: 16px; font-size: 1.35rem; }
+  .betrothal-intro { max-width: 282px; margin-bottom: 25px; font-size: .92rem; line-height: 1.55; }
   .betrothal h2 { max-width: 360px; font-size: clamp(2.65rem, 13vw, 3.55rem); line-height: .88; }
   .betrothal h2 span { margin: 5px 0 6px; font-size: 1.12rem; line-height: 1; }
-  .betrothal-details { padding: 66px 22px 78px; }
-  .betrothal-details-layout { gap: 56px; width: min(100%, 420px); }
+  .betrothal-details {
+    padding: 66px 22px 78px;
+    background:
+      linear-gradient(rgba(244,250,253,.08), rgba(244,250,253,.12)),
+      url("assets/mobile-betrothal-torn-paper.webp") center / cover no-repeat,
+      #eef8fc;
+  }
   .betrothal-detail-date > span { margin-bottom: 12px; font-size: .66rem; }
   .betrothal-detail-date div { gap: 16px; }
   .betrothal-detail-date strong { font-size: clamp(5.2rem, 25vw, 6.4rem); }
@@ -2087,13 +2048,9 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .petal-layer { display: none; }
   .enhanced .scroll-reveal .event-layout,
   .enhanced .scroll-reveal .betrothal-inner,
-  .enhanced .scroll-reveal .betrothal-details-layout,
+  .enhanced .scroll-reveal .betrothal-event-layout,
   .enhanced .scroll-reveal .attendance-copy,
   .enhanced .scroll-reveal .attendance-response { opacity: 1; transform: none; }
-  .enhanced .families .families-overline,
-  .enhanced .families h2,
-  .enhanced .families .family,
-  .enhanced .families .family-promise { opacity: 1; filter: none; transform: none; }
 }
 
 @media (max-width: 700px) and (max-height: 640px) {
