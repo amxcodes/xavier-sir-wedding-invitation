@@ -5,6 +5,7 @@ const opening = document.querySelector('#opening');
 const cinematicIntro = document.querySelector('#cinematicIntro');
 const cinematicVideo = cinematicIntro?.querySelector('.cinematic-video');
 const invitation = document.querySelector('#invitation');
+const countdown = document.querySelector('[data-countdown]');
 const trigger = document.querySelector('#openInvite');
 const stopMotionClosedFrame = document.querySelector('.envelope-stopmotion-frame--closed');
 const stopMotionAnimation = document.querySelector('.envelope-stopmotion-animation');
@@ -39,6 +40,41 @@ let inviteAccepted = false;
 let attendanceSaving = false;
 let attending = true;
 let stopMotionFrameImages = [];
+
+function startCountdown() {
+  if (!countdown) return;
+
+  const target = new Date(countdown.dataset.target || '').getTime();
+  if (!Number.isFinite(target)) return;
+
+  const values = {
+    days: countdown.querySelector('[data-countdown-days]'),
+    hours: countdown.querySelector('[data-countdown-hours]'),
+    minutes: countdown.querySelector('[data-countdown-minutes]'),
+    seconds: countdown.querySelector('[data-countdown-seconds]'),
+  };
+  const format = (value) => String(value).padStart(2, '0');
+
+  const render = () => {
+    let remaining = Math.max(0, target - Date.now());
+    const days = Math.floor(remaining / 86_400_000);
+    remaining -= days * 86_400_000;
+    const hours = Math.floor(remaining / 3_600_000);
+    remaining -= hours * 3_600_000;
+    const minutes = Math.floor(remaining / 60_000);
+    const seconds = Math.floor((remaining - minutes * 60_000) / 1_000);
+
+    values.days.textContent = format(days);
+    values.hours.textContent = format(hours);
+    values.minutes.textContent = format(minutes);
+    values.seconds.textContent = format(seconds);
+  };
+
+  render();
+  window.setInterval(render, 1_000);
+}
+
+startCountdown();
 
 async function enableStopMotionWhenReady() {
   if (!opening || !stopMotionClosedFrame || !stopMotionAnimation) return false;

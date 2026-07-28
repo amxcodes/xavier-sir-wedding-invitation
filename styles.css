@@ -577,6 +577,79 @@ button { font: inherit; }
   50% { transform: translate3d(0, 4px, 0); }
 }
 
+/* Save-the-date chapter — artwork remains at the edges so the live countdown
+   stays legible at every viewport. */
+.countdown {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: min(74svh, 780px);
+  place-items: center;
+  overflow: hidden;
+  padding: clamp(96px, 11vw, 150px) clamp(24px, 6vw, 92px);
+  color: #421f31;
+  text-align: center;
+  background: url("assets/countdown-garden-desktop.png") center / cover no-repeat, #fffaf2;
+}
+.countdown-content { display: grid; justify-items: center; width: min(100%, 900px); }
+.countdown-overline {
+  margin: 0 0 13px;
+  color: #b45475;
+  font: 700 .67rem/1 "DM Sans", sans-serif;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+}
+.countdown h2 {
+  margin: 0;
+  color: #422035;
+  font: 500 clamp(2.6rem, 5vw, 4.6rem)/.95 "Playfair Display", serif;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.countdown-note {
+  max-width: 420px;
+  margin: 15px 0 0;
+  color: #8f6270;
+  font: 500 italic clamp(1rem, 1.4vw, 1.18rem)/1.35 "Cormorant Garamond", serif;
+  text-wrap: balance;
+}
+.countdown-units {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: min(100%, 710px);
+  margin-top: clamp(39px, 5vw, 58px);
+}
+.countdown-units > div {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.countdown-units > div + div::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  bottom: 15%;
+  left: 0;
+  width: 1px;
+  background: linear-gradient(transparent, rgba(145,73,105,.37), transparent);
+}
+.countdown-units strong {
+  color: #c93470;
+  display: block;
+  min-height: 1em;
+  font: 500 clamp(2.85rem, 5.8vw, 5.5rem)/.96 "Playfair Display", serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.055em;
+}
+.countdown-units span {
+  color: #875b69;
+  font: 700 .59rem/1 "DM Sans", sans-serif;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
 /* Invitation */
 .invitation {
   position: relative;
@@ -1252,16 +1325,6 @@ button { font: inherit; }
     radial-gradient(circle at 78% 12%, rgba(231, 133, 171, .2), transparent 30%),
     linear-gradient(135deg, #7c103c 0%, var(--berry-deep) 62%, #64102f 100%);
 }
-.rsvp::after {
-  position: absolute;
-  inset: auto -12% -85% 42%;
-  width: min(45vw, 600px);
-  aspect-ratio: 1;
-  border: 1px solid rgba(255, 244, 238, .15);
-  border-radius: 50%;
-  content: "";
-  pointer-events: none;
-}
 .attendance-copy, .attendance-response { position: relative; z-index: 1; }
 .attendance-copy { max-width: 620px; }
 .attendance-copy > img {
@@ -1572,6 +1635,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 
 /* A short, scroll-triggered reveal rather than continuous scroll-tied animation. */
 .enhanced .scroll-reveal .event-layout,
+.enhanced .scroll-reveal .countdown-content,
 .enhanced .scroll-reveal .betrothal-inner,
 .enhanced .scroll-reveal .betrothal-event-layout,
 .enhanced .scroll-reveal .attendance-copy,
@@ -1581,6 +1645,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   transition: opacity .7s ease-out, transform .7s cubic-bezier(.2,.72,.18,1);
 }
 .enhanced .scroll-reveal.is-visible .event-layout,
+.enhanced .scroll-reveal.is-visible .countdown-content,
 .enhanced .scroll-reveal.is-visible .betrothal-inner,
 .enhanced .scroll-reveal.is-visible .betrothal-event-layout,
 .enhanced .scroll-reveal.is-visible .attendance-copy,
@@ -1741,6 +1806,35 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .cinematic-video {
     object-position: 50% 50%;
   }
+  .countdown {
+    min-height: 100svh;
+    padding: max(14svh, 90px) 22px max(14svh, 94px);
+    background: url("assets/countdown-garden-mobile.png") center / cover no-repeat, #fffaf2;
+  }
+  .countdown-content { width: min(100%, 350px); }
+  .countdown-overline { margin-bottom: 11px; font-size: .59rem; letter-spacing: .21em; }
+  .countdown h2 { font-size: clamp(2.55rem, 12vw, 3.4rem); }
+  .countdown-note { max-width: 260px; margin-top: 13px; font-size: 1rem; }
+  .countdown-units {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 29px;
+    width: min(100%, 278px);
+    margin-top: 38px;
+  }
+  .countdown-units > div { gap: 11px; }
+  .countdown-units > div:nth-child(3)::before { display: none; }
+  .countdown-units > div:nth-child(3)::after,
+  .countdown-units > div:nth-child(4)::after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 11%;
+    right: 11%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(145,73,105,.32), transparent);
+  }
+  .countdown-units strong { font-size: clamp(3.25rem, 16vw, 4.2rem); }
+  .countdown-units span { font-size: .54rem; }
   .envelope-trigger { min-height: 100%; perspective: 1100px; }
   .envelope-scene {
     inset: auto;
@@ -1913,7 +2007,19 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     top: max(-54px, calc(-1 * env(safe-area-inset-top) - 44px));
     right: 12px;
   }
-  .event { padding: max(14svh, 92px) 22px max(14svh, 96px); }
+  .event { padding: max(18svh, 128px) 22px max(11svh, 76px); }
+  .event .event-layout { gap: 44px; }
+  .event .day { height: 5.65rem; padding-right: 1.15rem; }
+  .event .day strong { font-size: 5.6rem; }
+  .event .ordinal { top: .36rem; font-size: .74rem; }
+  .event .month { gap: .4rem; margin-top: 5px; font-size: 1.12rem; }
+  .event .month small { font-size: .62rem; }
+  .event .venues { gap: 35px; }
+  .event .venue-copy { gap: 5px; }
+  .event .venue-copy strong { font-size: clamp(1.18rem, 5.7vw, 1.45rem); }
+  .event .venue-copy small { font-size: .78rem; }
+  .event .venue-kind { font-size: .61rem; }
+  .event .venue-action { font-size: .64rem; }
   .announcement {
     min-height: 78svh;
     padding: 80px 22px 88px;
@@ -1958,7 +2064,6 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     padding: max(58px, calc(env(safe-area-inset-top) + 30px)) 20px max(58px, calc(env(safe-area-inset-bottom) + 34px));
     text-align: center;
   }
-  .rsvp::after { inset: auto -38% -28% auto; width: 85vw; }
   .attendance-copy { display: grid; justify-items: center; }
   .attendance-copy > img { width: 21px; margin-bottom: 13px; }
   .attendance-kicker, .rsvp p.attendance-kicker { margin-bottom: 10px; font-size: .62rem; }
@@ -2047,6 +2152,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .envelope-flap, .paper-sheet, .seal-crack, .seal-chip { animation: none !important; }
   .petal-layer { display: none; }
   .enhanced .scroll-reveal .event-layout,
+  .enhanced .scroll-reveal .countdown-content,
   .enhanced .scroll-reveal .betrothal-inner,
   .enhanced .scroll-reveal .betrothal-event-layout,
   .enhanced .scroll-reveal .attendance-copy,
