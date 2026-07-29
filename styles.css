@@ -47,10 +47,7 @@ button { font: inherit; }
   width: 100vw;
   height: 100svh;
   overflow: hidden;
-  background:
-    url("assets/paper-grain.svg") center / 192px 192px repeat,
-    radial-gradient(circle at 50% 40%, rgba(255,255,255,.78), transparent 42%),
-    linear-gradient(160deg, #fbf7ef 0%, #f2e8dc 100%);
+  background: url("assets/envelope-backdrop-desktop.png") center / cover no-repeat, #fcf7ef;
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
   transition-property: transform, opacity;
@@ -510,6 +507,44 @@ button { font: inherit; }
   object-fit: cover;
   object-position: 50% 50%;
 }
+.hero-wedding-copy {
+  position: absolute;
+  z-index: 3;
+  top: clamp(112px, 17svh, 186px);
+  left: clamp(44px, 12vw, 238px);
+  display: grid;
+  justify-items: center;
+  width: min(47vw, 710px);
+  color: #7b3054;
+  text-align: center;
+  text-shadow: 0 1px 18px rgba(255, 252, 243, .78);
+}
+.hero-wedding-copy > p {
+  margin: 0 0 10px;
+  color: #a66d49;
+  font: 700 clamp(.59rem, .78vw, .7rem)/1 "DM Sans", sans-serif;
+  letter-spacing: .23em;
+  text-transform: uppercase;
+}
+.hero-wedding-copy h1 {
+  margin: 0;
+  color: #4b2337;
+  font: 500 clamp(2.15rem, 4vw, 4.2rem)/.98 "Playfair Display", serif;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.hero-wedding-names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(17px, 2.7vw, 42px);
+  margin-top: clamp(20px, 2.8vw, 35px);
+}
+.hero-wedding-names > span {
+  font: 500 clamp(2.35rem, 4.3vw, 4.5rem)/.86 "Great Vibes", cursive;
+  letter-spacing: -.03em;
+}
+.hero-wedding-names .marriage-seal { flex: 0 0 auto; width: clamp(64px, 6vw, 94px); }
 .cinematic-video {
   z-index: 2;
   opacity: 1;
@@ -525,17 +560,6 @@ button { font: inherit; }
 }
 .cinematic-intro.is-final-locked .cinematic-video {
   visibility: hidden;
-}
-.cinematic-intro::after {
-  content: "";
-  position: absolute;
-  z-index: 2;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: clamp(72px, 14svh, 160px);
-  pointer-events: none;
-  background: linear-gradient(to bottom, transparent, rgba(255, 250, 247, .94) 88%, #fffaf7);
 }
 .cinematic-scroll-cue {
   position: absolute;
@@ -575,6 +599,49 @@ button { font: inherit; }
 @keyframes cinematic-scroll-nudge {
   0%, 100% { transform: translate3d(0, 0, 0); }
   50% { transform: translate3d(0, 4px, 0); }
+}
+
+/* Wedding chapter — a quiet stationery backdrop follows the portrait without
+   competing with the formal card that comes after it. */
+.wedding-intro {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  height: 100svh;
+  padding: clamp(96px, 11vw, 148px) 24px;
+  color: #482438;
+  text-align: center;
+  background: url("assets/wedding-intro-desktop.png") center / cover no-repeat, #fff8ee;
+}
+.wedding-intro-inner { width: min(100%, 690px); }
+.wedding-intro-eyebrow {
+  margin: 0 0 18px;
+  color: #ac704c;
+  font: 700 clamp(.6rem, .82vw, .72rem)/1 "DM Sans", sans-serif;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+.wedding-intro h2 {
+  margin: 0;
+  color: #49243a;
+  font: 500 clamp(3rem, 6.1vw, 5.6rem)/.87 "Playfair Display", serif;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+.wedding-intro h2 span {
+  display: block;
+  margin-top: .15em;
+  color: #b55578;
+  font: 500 italic clamp(1.3rem, 2vw, 1.85rem)/1 "Cormorant Garamond", serif;
+  letter-spacing: .01em;
+}
+.wedding-intro-note {
+  max-width: 460px;
+  margin: 28px auto 0;
+  color: #81576b;
+  font: 500 italic clamp(1.05rem, 1.55vw, 1.28rem)/1.42 "Cormorant Garamond", serif;
+  text-wrap: balance;
 }
 
 /* Save-the-date chapter — artwork remains at the edges so the live countdown
@@ -1636,6 +1703,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 /* A short, scroll-triggered reveal rather than continuous scroll-tied animation. */
 .enhanced .scroll-reveal .event-layout,
 .enhanced .scroll-reveal .countdown-content,
+.enhanced .scroll-reveal .wedding-intro-inner,
 .enhanced .scroll-reveal .betrothal-inner,
 .enhanced .scroll-reveal .betrothal-event-layout,
 .enhanced .scroll-reveal .attendance-copy,
@@ -1646,6 +1714,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 }
 .enhanced .scroll-reveal.is-visible .event-layout,
 .enhanced .scroll-reveal.is-visible .countdown-content,
+.enhanced .scroll-reveal.is-visible .wedding-intro-inner,
 .enhanced .scroll-reveal.is-visible .betrothal-inner,
 .enhanced .scroll-reveal.is-visible .betrothal-event-layout,
 .enhanced .scroll-reveal.is-visible .attendance-copy,
@@ -1791,10 +1860,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     transition-duration: .62s, .42s;
     transition-timing-function: cubic-bezier(.2,.72,.18,1);
     will-change: transform, opacity;
-    background:
-      url("assets/paper-grain.svg") center / 192px 192px repeat,
-      radial-gradient(circle at 50% 40%, rgba(255,255,255,.78), transparent 42%),
-      linear-gradient(160deg, #fbf7ef 0%, #f2e8dc 100%);
+    background: url("assets/envelope-backdrop-mobile.png") center / cover no-repeat, #fcf7ef;
   }
   .petal-layer span:nth-child(n + 11) { display: none; }
   .envelope-screen.is-handoff { transform: translate3d(0, -103%, 0) scale(.988); }
@@ -1806,6 +1872,28 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .cinematic-video {
     object-position: 50% 50%;
   }
+  .hero-wedding-copy {
+    top: max(7svh, 48px);
+    left: 50%;
+    width: min(88vw, 360px);
+    transform: translateX(-50%);
+  }
+  .hero-wedding-copy > p { margin-bottom: 9px; font-size: .56rem; letter-spacing: .2em; }
+  .hero-wedding-copy h1 { max-width: 280px; font-size: clamp(1.72rem, 8.2vw, 2.3rem); }
+  .hero-wedding-names { gap: clamp(12px, 4vw, 18px); margin-top: 17px; }
+  .hero-wedding-names > span { font-size: clamp(1.95rem, 10vw, 2.7rem); }
+  .hero-wedding-names .marriage-seal { width: clamp(48px, 16vw, 62px); }
+  .wedding-intro {
+    min-height: 0;
+    height: auto;
+    padding: max(15svh, 90px) 22px max(15svh, 94px);
+    background: url("assets/wedding-intro-mobile.png") center / cover no-repeat, #fff8ee;
+  }
+  .wedding-intro-inner { width: min(100%, 340px); }
+  .wedding-intro-eyebrow { margin-bottom: 15px; font-size: .57rem; letter-spacing: .2em; }
+  .wedding-intro h2 { font-size: clamp(3rem, 14vw, 4rem); }
+  .wedding-intro h2 span { font-size: 1.22rem; }
+  .wedding-intro-note { max-width: 270px; margin-top: 24px; font-size: 1.03rem; }
   .countdown {
     min-height: 100svh;
     padding: max(14svh, 90px) 22px max(14svh, 94px);
@@ -2153,6 +2241,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .petal-layer { display: none; }
   .enhanced .scroll-reveal .event-layout,
   .enhanced .scroll-reveal .countdown-content,
+  .enhanced .scroll-reveal .wedding-intro-inner,
   .enhanced .scroll-reveal .betrothal-inner,
   .enhanced .scroll-reveal .betrothal-event-layout,
   .enhanced .scroll-reveal .attendance-copy,

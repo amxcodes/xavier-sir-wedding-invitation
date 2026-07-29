@@ -468,6 +468,11 @@ function startCinematicPlayback() {
   if (cinematicPlaybackStarted) return;
   cinematicPlaybackStarted = true;
 
+  if (!cinematicVideo) {
+    showCinematicFinalFrame({ immediate: true });
+    return;
+  }
+
   if (motionQuery.matches) {
     showCinematicFinalFrame({ immediate: true });
   } else {
@@ -486,14 +491,6 @@ async function openInvitation() {
   }
   invitation.hidden = false;
   cinematicIntro.hidden = false;
-  if (cinematicVideo) {
-    const portraitMobile = window.matchMedia('(max-width: 900px) and (orientation: portrait)').matches;
-    cinematicVideo.poster = portraitMobile
-      ? 'assets/palace-wedding-first-mobile-v2.webp'
-      : 'assets/invitation-reveal-desktop-poster.jpg';
-    cinematicVideo.preload = 'auto';
-    cinematicVideo.load();
-  }
   opening.classList.add('is-pressed');
   trigger.setAttribute('aria-expanded', 'true');
   await stopMotionReady;

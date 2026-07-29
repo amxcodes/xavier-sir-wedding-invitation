@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="assets/envelope-motion-00.webp?v=5" fetchpriority="high" />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;family=DM+Sans:wght@400;500;600&amp;family=Great+Vibes&amp;family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=28" />
+    <link rel="stylesheet" href="styles.css?v=33" />
   </head>
   <body class="is-locked">
     <main>
@@ -42,69 +42,34 @@
       <section class="cinematic-intro" id="cinematicIntro" aria-label="The wedding of Xavier Kattikaran and Dreama Maria" hidden>
         <picture class="cinematic-final-frame">
           <source
-            type="image/webp"
             media="(max-width: 900px) and (orientation: portrait)"
-            srcset="assets/invitation-reveal-mobile-final.webp"
-          />
-          <source
-            media="(max-width: 900px) and (orientation: portrait)"
-            srcset="assets/invitation-reveal-mobile-final.jpg"
+            srcset="assets/wedding-hero-mobile.png"
           />
           <img
-            src="assets/invitation-reveal-desktop-final.png"
-            alt="The wedding of Xavier Kattikaran and Dreama Maria in a floral watercolour garden"
+            src="assets/wedding-hero-desktop.png"
+            alt="Watercolour portrait of Xavier Kattikaran and Dreama Maria"
             width="1672"
             height="941"
             decoding="async"
             fetchpriority="high"
           />
         </picture>
-        <video
-          class="cinematic-video"
-          muted
-          playsinline
-          preload="metadata"
-          poster="assets/invitation-reveal-desktop-poster.jpg"
-          aria-hidden="true"
-        >
-          <source
-            src="assets/invitation-reveal-mobile.mp4"
-            type="video/mp4"
-            media="(max-width: 900px) and (orientation: portrait)"
-          />
-          <source src="assets/palace-wedding-intro-480.mp4" type="video/mp4" media="(max-width: 700px)" />
-          <source
-            src="assets/invitation-reveal-desktop-1100.mp4"
-            type="video/mp4"
-            media="(max-width: 1366px)"
-          />
-          <source src="assets/invitation-reveal-desktop-1600.mp4" type="video/mp4" />
-        </video>
-        <p class="cinematic-scroll-cue" aria-hidden="true">
-          <span>Scroll to continue</span>
-          <svg viewBox="0 0 24 24" focusable="false"><path d="m7 10 5 5 5-5" /></svg>
-        </p>
-      </section>
-
-      <section class="countdown scroll-reveal" aria-labelledby="countdownTitle">
-        <div class="countdown-content">
-          <p class="countdown-overline">Our forever begins in</p>
-          <h2 id="countdownTitle">Counting down</h2>
-          <p class="countdown-note">We cannot wait to celebrate this beautiful day with you.</p>
-          <div class="countdown-units" data-countdown data-target="2026-09-13T00:00:00+05:30" aria-live="polite">
-            <div><strong data-countdown-days>00</strong><span>Days</span></div>
-            <div><strong data-countdown-hours>00</strong><span>Hours</span></div>
-            <div><strong data-countdown-minutes>00</strong><span>Minutes</span></div>
-            <div><strong data-countdown-seconds>00</strong><span>Seconds</span></div>
+        <div class="hero-wedding-copy">
+          <p>With joyful hearts</p>
+          <h1>We are getting married</h1>
+          <div class="hero-wedding-names">
+            <span>Xavier</span>
+            <div class="marriage-seal" aria-hidden="true"><img src="assets/initials.svg" alt="" /></div>
+            <span>Dreama</span>
           </div>
         </div>
       </section>
 
-      <section class="announcement" aria-labelledby="announcementTitle">
-        <div class="announcement-inner">
-          <p class="announcement-eyebrow">With joyful hearts</p>
-          <h2 id="announcementTitle">We are getting married</h2>
-          <div class="announcement-names"><span>Xavier</span><div class="marriage-seal" aria-hidden="true"><img src="assets/initials.svg" alt="" /></div><span>Dreama</span></div>
+      <section class="wedding-intro scroll-reveal" aria-labelledby="weddingIntroTitle">
+        <div class="wedding-intro-inner">
+          <p class="wedding-intro-eyebrow">With the blessings of our families</p>
+          <h2 id="weddingIntroTitle">The Wedding <span>Ceremony</span></h2>
+          <p class="wedding-intro-note">We joyfully invite you to celebrate a day of love, faith and forever.</p>
         </div>
       </section>
 
@@ -194,6 +159,20 @@
               <span class="venue-copy"><span class="venue-kind">Reception · 5:30 PM</span><strong>Clouds Village</strong><small>Thodupuzha</small></span>
               <span class="venue-action">Directions <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
             </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="countdown scroll-reveal" aria-labelledby="countdownTitle">
+        <div class="countdown-content">
+          <p class="countdown-overline">Our forever begins in</p>
+          <h2 id="countdownTitle">Counting down</h2>
+          <p class="countdown-note">We cannot wait to celebrate this beautiful day with you.</p>
+          <div class="countdown-units" data-countdown data-target="2026-09-13T00:00:00+05:30" aria-live="polite">
+            <div><strong data-countdown-days>00</strong><span>Days</span></div>
+            <div><strong data-countdown-hours>00</strong><span>Hours</span></div>
+            <div><strong data-countdown-minutes>00</strong><span>Minutes</span></div>
+            <div><strong data-countdown-seconds>00</strong><span>Seconds</span></div>
           </div>
         </div>
       </section>
