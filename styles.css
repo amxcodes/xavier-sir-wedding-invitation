@@ -47,7 +47,7 @@ button { font: inherit; }
   width: 100vw;
   height: 100svh;
   overflow: hidden;
-  background: url("assets/envelope-backdrop-desktop.png") center / cover no-repeat, #fcf7ef;
+  background: url("assets/envelope-backdrop-desktop.webp") center / cover no-repeat, #fcf7ef;
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
   transition-property: transform, opacity;
@@ -612,7 +612,7 @@ button { font: inherit; }
   padding: clamp(96px, 11vw, 148px) 24px;
   color: #482438;
   text-align: center;
-  background: url("assets/wedding-intro-desktop.png") center / cover no-repeat, #fff8ee;
+  background: url("assets/wedding-intro-desktop.webp") center / cover no-repeat, #fff8ee;
 }
 .wedding-intro-inner { width: min(100%, 690px); }
 .wedding-intro-eyebrow {
@@ -1860,7 +1860,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     transition-duration: .62s, .42s;
     transition-timing-function: cubic-bezier(.2,.72,.18,1);
     will-change: transform, opacity;
-    background: url("assets/envelope-backdrop-mobile.png") center / cover no-repeat, #fcf7ef;
+    background: url("assets/envelope-backdrop-mobile.webp") center / cover no-repeat, #fcf7ef;
   }
   .petal-layer span:nth-child(n + 11) { display: none; }
   .envelope-screen.is-handoff { transform: translate3d(0, -103%, 0) scale(.988); }
@@ -1887,7 +1887,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
     min-height: 0;
     height: auto;
     padding: max(15svh, 90px) 22px max(15svh, 94px);
-    background: url("assets/wedding-intro-mobile.png") center / cover no-repeat, #fff8ee;
+    background: url("assets/wedding-intro-mobile.webp") center / cover no-repeat, #fff8ee;
   }
   .wedding-intro-inner { width: min(100%, 340px); }
   .wedding-intro-eyebrow { margin-bottom: 15px; font-size: .57rem; letter-spacing: .2em; }
