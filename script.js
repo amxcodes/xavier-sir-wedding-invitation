@@ -122,6 +122,7 @@ function startStopMotionAnimation() {
 
 const inviteStorageKey = 'xavier-dreama-invite-token';
 const attendanceEndpoint = attendanceSection?.dataset.attendanceEndpoint || window.INVITATION_ATTENDANCE_ENDPOINT || '';
+const invitationVariant = attendanceSection?.dataset.invitationVariant || window.INVITATION_VARIANT || 'full';
 
 function getInviteToken() {
   const urlInviteToken = new URLSearchParams(window.location.search).get('invite');
@@ -142,14 +143,14 @@ function getInviteToken() {
 }
 
 function renderAttendance() {
-  if (!attendanceSection || !guestCount || !guestName || !attendanceEvents || !attendingYes || !attendingNo || !acceptInvite) return;
+  if (!attendanceSection || !guestCount || !guestName || !attendingYes || !attendingNo || !acceptInvite) return;
 
   guestCount.textContent = String(selectedGuests);
   attendanceSection.classList.toggle('is-declined', !attending);
   guestName.disabled = attendanceSaving;
   guestDecrease.disabled = !attending || selectedGuests <= 1 || attendanceSaving;
   guestIncrease.disabled = !attending || selectedGuests >= 8 || attendanceSaving;
-  attendanceEvents.disabled = !attending || attendanceSaving;
+  if (attendanceEvents) attendanceEvents.disabled = !attending || attendanceSaving;
   attendingYes.disabled = attendanceSaving;
   attendingNo.disabled = attendanceSaving;
   attendingYes.classList.toggle('is-selected', attending);
@@ -178,14 +179,14 @@ async function loadAttendance() {
   }
 
   try {
-    const response = await fetch(`${attendanceEndpoint}?token=${encodeURIComponent(getInviteToken())}`);
+    const response = await fetch(`${attendanceEndpoint}?token=${encodeURIComponent(getInviteToken())}&variant=${encodeURIComponent(invitationVariant)}`);
     if (!response.ok) throw new Error('Could not load invitation');
 
     const invite = await response.json();
     selectedGuests = Math.min(8, Math.max(1, Number(invite.guests) || 1));
     attending = invite.attending !== false;
     guestName.value = invite.name || '';
-    attendanceEvents.querySelectorAll('input').forEach((input) => { input.checked = (invite.events || []).includes(input.value); });
+    attendanceEvents?.querySelectorAll('input').forEach((input) => { input.checked = (invite.events || []).includes(input.value); });
     inviteAccepted = Boolean(invite.accepted);
     attendeeTotal.textContent = Number(invite.totalGuests || 0).toLocaleString('en-IN');
     setAttendanceStatus(inviteAccepted ? (attending ? 'Your invitation is accepted.' : 'We have received your response.') : '');
@@ -211,11 +212,13 @@ async function saveAttendance() {
   renderAttendance();
 
   try {
-    const events = [...attendanceEvents.querySelectorAll('input:checked')].map((input) => input.value);
+    const events = attendanceEvents
+      ? [...attendanceEvents.querySelectorAll('input:checked')].map((input) => input.value)
+      : ['wedding'];
     const response = await fetch(attendanceEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ inviteToken: getInviteToken(), name, attending, guests: selectedGuests, events })
+      body: JSON.stringify({ inviteToken: getInviteToken(), name, attending, guests: selectedGuests, events, variant: invitationVariant })
     });
     if (!response.ok) throw new Error('Could not save invitation');
 

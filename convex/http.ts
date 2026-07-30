@@ -14,6 +14,10 @@ function validInviteToken(token: string | null) {
   return Boolean(token && /^[a-zA-Z0-9-]{16,80}$/.test(token));
 }
 
+function invitationVariant(value: unknown): "full" | "weddingOnly" {
+  return value === "weddingOnly" ? "weddingOnly" : "full";
+}
+
 http.route({
   path: "/attendance",
   method: "OPTIONS",
@@ -24,12 +28,13 @@ http.route({
   path: "/attendance",
   method: "GET",
   handler: httpAction(async (ctx, request) => {
-    const token = new URL(request.url).searchParams.get("token");
+    const params = new URL(request.url).searchParams;
+    const token = params.get("token");
     if (!validInviteToken(token)) {
       return Response.json({ error: "Invalid invite." }, { status: 400, headers: corsHeaders });
     }
 
-    const invite = await ctx.runQuery(api.attendance.getInvite, { inviteToken: token });
+    const invite = await ctx.runQuery(api.attendance.getInvite, { inviteToken: token, variant: invitationVariant(params.get("variant")) });
     return Response.json(invite, { headers: corsHeaders });
   }),
 });
@@ -49,7 +54,7 @@ http.route({
         return Response.json({ error: "Invalid invitation response." }, { status: 400, headers: corsHeaders });
       }
 
-      const invite = await ctx.runMutation(api.attendance.acceptInvite, { inviteToken: token, name, attending, guests, events });
+      const invite = await ctx.runMutation(api.attendance.acceptInvite, { inviteToken: token, name, attending, guests, events, variant: invitationVariant(payload.variant) });
       return Response.json(invite, { headers: corsHeaders });
     } catch {
       return Response.json({ error: "Unable to save your response." }, { status: 400, headers: corsHeaders });
