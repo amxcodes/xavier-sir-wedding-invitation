@@ -38,6 +38,32 @@ body {
 body.is-locked { height: 100svh; overflow: hidden; touch-action: none; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; }
+.music-control {
+  position: fixed;
+  z-index: 40;
+  top: max(18px, env(safe-area-inset-top));
+  right: max(18px, env(safe-area-inset-right));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid rgba(74, 15, 42, .18);
+  border-radius: 999px;
+  color: var(--berry-deep);
+  background: rgba(255, 250, 246, .82);
+  box-shadow: 0 8px 24px rgba(52, 12, 31, .14);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  transition: transform .2s cubic-bezier(.2,0,0,1), background-color .2s ease, box-shadow .2s ease;
+}
+.music-control[hidden] { display: none; }
+.music-control svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.music-control span { font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.music-control:active { transform: scale(.96); }
+.music-control:hover { background: #fffaf6; box-shadow: 0 11px 28px rgba(52, 12, 31, .18); }
 
 /* Full-viewport envelope */
 .envelope-screen {
@@ -656,7 +682,7 @@ button { font: inherit; }
   padding: clamp(96px, 11vw, 150px) clamp(24px, 6vw, 92px);
   color: #421f31;
   text-align: center;
-  background: url("assets/countdown-garden-desktop.png") center / cover no-repeat, #fffaf2;
+  background: url("assets/countdown-garden-desktop.webp") center / cover no-repeat, #fffaf2;
 }
 .countdown-content { display: grid; justify-items: center; width: min(100%, 900px); }
 .countdown-overline {
@@ -726,7 +752,7 @@ button { font: inherit; }
   overflow: hidden;
   background:
     linear-gradient(rgba(255, 250, 246, .16), rgba(255, 250, 246, .12)),
-    url("assets/wedding-torn-paper-desktop.png") center / cover no-repeat,
+    url("assets/wedding-torn-paper-desktop.webp") center / cover no-repeat,
     var(--paper);
 }
 .invitation::before {
@@ -838,9 +864,10 @@ button { font: inherit; }
 .host span {
   color: var(--muted);
   font-size: .76em;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: .01em;
 }
+.host span strong { color: var(--ink); font-weight: 800; }
 .request-copy {
   max-width: 780px;
   margin: 0;
@@ -863,7 +890,8 @@ button { font: inherit; }
   letter-spacing: .16em;
   text-transform: uppercase;
 }
-.invitation-families span { font: 500 clamp(.78rem, 1.15vw, .94rem)/1.42 "Cormorant Garamond", serif; text-wrap: balance; }
+.invitation-families span { font: 600 clamp(.78rem, 1.15vw, .94rem)/1.42 "Cormorant Garamond", serif; text-wrap: balance; }
+.invitation-families span strong { color: var(--ink); font-weight: 800; }
 .couple {
   width: 100%;
   display: flex;
@@ -896,12 +924,12 @@ button { font: inherit; }
   font: 500 clamp(.9rem, 1.25vw, 1.06rem)/1.35 "Cormorant Garamond", serif;
   letter-spacing: .008em;
 }
-.celebrant strong { font-weight: 600; }
+.celebrant strong { color: var(--ink); font-weight: 800; }
 .celebrant span { font-style: italic; }
 .invitation-inner--compact {
   grid-template-rows: auto auto;
   align-content: center;
-  gap: clamp(52px, 9vh, 92px);
+  gap: clamp(22px, 3.4vh, 36px);
   max-width: 900px;
 }
 .invitation-inner--compact .invitation-prologue { align-self: center; }
@@ -1127,7 +1155,7 @@ button { font: inherit; }
   overflow: clip;
   padding: clamp(94px, 11vw, 158px) clamp(24px, 6vw, 92px);
   color: var(--ink);
-  background: url("assets/families-botanical-desktop.png") center / cover no-repeat, #fffaf7;
+  background: url("assets/families-botanical-desktop.webp") center / cover no-repeat, #fffaf7;
 }
 .announcement::before {
   content: "";
@@ -1211,7 +1239,7 @@ button { font: inherit; }
   overflow: hidden;
   background:
     linear-gradient(rgba(255,250,247,.09), rgba(255,250,247,.12)),
-    url("assets/wedding-torn-paper-desktop.png") center / cover no-repeat,
+    url("assets/wedding-torn-paper-desktop.webp") center / cover no-repeat,
     #f5eae8;
 }
 .event-layout {
@@ -1490,7 +1518,7 @@ button { font: inherit; }
   text-align: center;
   background:
     linear-gradient(rgba(244,250,253,.1), rgba(244,250,253,.1)),
-    url("assets/betrothal-torn-paper-desktop.png") center / cover no-repeat,
+    url("assets/betrothal-torn-paper-desktop.webp") center / cover no-repeat,
     #eef8fc;
 }
 .betrothal::before,
@@ -1546,7 +1574,7 @@ button { font: inherit; }
   color: #18394f;
   background:
     linear-gradient(rgba(244,250,253,.08), rgba(244,250,253,.12)),
-    url("assets/betrothal-torn-paper-desktop.png") center / cover no-repeat,
+    url("assets/betrothal-torn-paper-desktop.webp") center / cover no-repeat,
     #eef8fc;
 }
 .betrothal-detail-date {
@@ -1764,10 +1792,11 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 }
 .attendance-events {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   width: min(100%, 280px);
-  margin: 24px 0 0;
+  justify-self: center;
+  margin: 24px auto 0;
   padding: 0;
   border: 0;
   text-align: left;
@@ -1854,6 +1883,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 
 @media (max-width: 700px) {
   html, body, body.is-locked, main { width: 100%; min-width: 100%; }
+  .music-control { top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); min-width: 44px; min-height: 44px; padding: 0 11px; }
   .envelope-screen {
     height: 100svh;
     height: 100dvh;
@@ -1897,7 +1927,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .countdown {
     min-height: 100svh;
     padding: max(14svh, 90px) 22px max(14svh, 94px);
-    background: url("assets/countdown-garden-mobile.png") center / cover no-repeat, #fffaf2;
+    background: url("assets/countdown-garden-mobile.webp") center / cover no-repeat, #fffaf2;
   }
   .countdown-content { width: min(100%, 350px); }
   .countdown-overline { margin-bottom: 11px; font-size: .59rem; letter-spacing: .21em; }
@@ -2021,7 +2051,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .invitation-inner--compact {
     grid-template-rows: auto auto;
     align-content: center;
-    gap: clamp(48px, 9svh, 76px);
+    gap: clamp(14px, 2.7svh, 24px);
   }
   .scripture { margin-bottom: 4px; font-size: .88rem; line-height: 1.14; }
   .heart-mark { width: 18px; margin-bottom: 7px; }
@@ -2111,7 +2141,7 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .announcement {
     min-height: 78svh;
     padding: 80px 22px 88px;
-    background: url("assets/families-botanical-background.png") center / cover no-repeat, #fffaf7;
+    background: url("assets/families-botanical-background.webp") center / cover no-repeat, #fffaf7;
   }
   .announcement-eyebrow { margin-bottom: 11px; font-size: .59rem; letter-spacing: .2em; }
   .announcement h2 { max-width: 310px; font-size: clamp(2.2rem, 10vw, 3.1rem); }

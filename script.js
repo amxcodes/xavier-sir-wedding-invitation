@@ -7,6 +7,8 @@ const cinematicVideo = cinematicIntro?.querySelector('.cinematic-video');
 const invitation = document.querySelector('#invitation');
 const countdown = document.querySelector('[data-countdown]');
 const trigger = document.querySelector('#openInvite');
+const backgroundMusic = document.querySelector('#backgroundMusic');
+const musicToggle = document.querySelector('#musicToggle');
 const stopMotionClosedFrame = document.querySelector('.envelope-stopmotion-frame--closed');
 const stopMotionAnimation = document.querySelector('.envelope-stopmotion-animation');
 const stopMotionFrameOrder = [0, 1, 2, 5, 3, 4, 6, 7];
@@ -40,6 +42,7 @@ let inviteAccepted = false;
 let attendanceSaving = false;
 let attending = true;
 let stopMotionFrameImages = [];
+const backgroundMusicVolume = .8;
 
 function startCountdown() {
   if (!countdown) return;
@@ -431,6 +434,41 @@ function finishOpening() {
   smoothScroller?.start();
   smoothScroller?.resize();
   requestPhotoMotion();
+  startBackgroundMusic();
+}
+
+function syncMusicControl() {
+  if (!musicToggle || !backgroundMusic) return;
+  const isPlaying = !backgroundMusic.paused;
+  musicToggle.setAttribute('aria-pressed', String(isPlaying));
+  musicToggle.setAttribute('aria-label', isPlaying ? 'Pause music' : 'Play music');
+  const label = musicToggle.querySelector('span');
+  if (label) label.textContent = isPlaying ? 'Pause' : 'Music';
+}
+
+function unlockBackgroundMusic() {
+  if (!backgroundMusic) return;
+  backgroundMusic.volume = 0;
+  backgroundMusic.play().catch(() => {});
+}
+
+function startBackgroundMusic() {
+  if (!backgroundMusic) return;
+  musicToggle?.removeAttribute('hidden');
+  backgroundMusic.volume = backgroundMusicVolume;
+  backgroundMusic.play().then(syncMusicControl).catch(syncMusicControl);
+  syncMusicControl();
+}
+
+function toggleBackgroundMusic() {
+  if (!backgroundMusic) return;
+  if (backgroundMusic.paused) {
+    backgroundMusic.volume = backgroundMusicVolume;
+    backgroundMusic.play().then(syncMusicControl).catch(syncMusicControl);
+  } else {
+    backgroundMusic.pause();
+    syncMusicControl();
+  }
 }
 
 function commitCinematicFinalFrame() {
@@ -487,6 +525,7 @@ function startCinematicPlayback() {
 
 async function openInvitation() {
   if (opening.classList.contains('is-pressed')) return;
+  unlockBackgroundMusic();
   if (motionQuery.matches) {
     playSealRelease();
   } else {
@@ -555,6 +594,9 @@ attendingYes?.addEventListener('click', () => { attending = true; renderAttendan
 attendingNo?.addEventListener('click', () => { attending = false; renderAttendance(); });
 
 acceptInvite?.addEventListener('click', saveAttendance);
+musicToggle?.addEventListener('click', toggleBackgroundMusic);
+backgroundMusic?.addEventListener('play', syncMusicControl);
+backgroundMusic?.addEventListener('pause', syncMusicControl);
 loadAttendance();
 
 cinematicVideo?.addEventListener('ended', showCinematicFinalFrame);
