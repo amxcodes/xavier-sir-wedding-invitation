@@ -38,6 +38,29 @@ body {
 body.is-locked { height: 100svh; overflow: hidden; touch-action: none; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { font: inherit; }
+.section-signature {
+  position: absolute;
+  z-index: 4;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: max(20px, env(safe-area-inset-left));
+  margin: 0;
+  color: rgba(91, 59, 73, .56);
+  font: 600 .57rem/1.25 "DM Sans", sans-serif;
+  letter-spacing: .1em;
+  text-align: center;
+  text-wrap: balance;
+  pointer-events: none;
+  user-select: none;
+}
+.section-signature span { display: inline-block; margin-inline: .45em; opacity: .72; }
+.envelope-screen .section-signature { bottom: max(64px, calc(env(safe-area-inset-bottom) + 52px)); color: rgba(133, 29, 72, .62); }
+.cinematic-intro .section-signature { bottom: max(58px, calc(env(safe-area-inset-bottom) + 48px)); color: rgba(73, 46, 41, .64); }
+.event .section-signature,
+.invitation .section-signature,
+.wedding-intro .section-signature { color: rgba(91, 59, 73, .52); }
+.countdown .section-signature { color: rgba(112, 75, 88, .55); }
+.rsvp .section-signature { color: rgba(255, 244, 238, .66); }
 .music-control {
   position: fixed;
   z-index: 40;
@@ -1300,6 +1323,29 @@ button { font: inherit; }
   font: 600 .7rem/1 "DM Sans", sans-serif;
   letter-spacing: .18em;
 }
+.event-sacrament {
+  position: relative;
+  width: min(100%, 27rem);
+  margin: clamp(28px, 3vw, 42px) 0 0;
+  color: var(--berry);
+  font: 500 clamp(.78rem, 1.2vw, 1rem)/1.35 "Playfair Display", serif;
+  text-align: center;
+  white-space: nowrap;
+  text-wrap: balance;
+}
+.event-sacrament::before,
+.event-sacrament::after {
+  content: "";
+  display: inline-block;
+  width: clamp(18px, 2.5vw, 34px);
+  height: 1px;
+  margin: 0 .55rem .28em;
+  vertical-align: middle;
+  background: currentColor;
+  opacity: .48;
+}
+.event-sacrament strong { font-weight: 700; white-space: nowrap; }
+.event-sacrament > span { margin-inline: .28em; }
 .venues {
   display: grid;
   grid-template-columns: 1fr;
@@ -1652,6 +1698,11 @@ button { font: inherit; }
   color: rgba(255,235,230,.45);
 }
 .closing-place { margin-top: 8px !important; }
+.closing .section-signature {
+  position: static;
+  margin: 24px 0 0;
+  color: rgba(255,235,230,.62);
+}
 .closing .closing-title {
   margin-bottom: 18px;
   color: #fffaf4;
@@ -1883,6 +1934,13 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
 
 @media (max-width: 700px) {
   html, body, body.is-locked, main { width: 100%; min-width: 100%; }
+  .section-signature {
+    right: 16px;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    left: 16px;
+    font-size: .5rem;
+    letter-spacing: .08em;
+  }
   .music-control { top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); min-width: 44px; min-height: 44px; padding: 0 11px; }
   .envelope-screen {
     height: 100svh;
@@ -2138,6 +2196,13 @@ body.is-petals-paused .petal-layer span { animation-play-state: paused; }
   .event .ordinal { top: .36rem; font-size: .74rem; }
   .event .month { gap: .4rem; margin-top: 5px; font-size: 1.12rem; }
   .event .month small { font-size: .62rem; }
+  .event-sacrament {
+    width: min(100%, 20rem);
+    margin-top: 25px;
+    font-size: .76rem;
+  }
+  .event-sacrament::before,
+  .event-sacrament::after { width: 16px; margin-inline: .35rem; }
   .event .venues { gap: 35px; }
   .event .venue-copy { gap: 5px; }
   .event .venue-copy strong { font-size: clamp(1.18rem, 5.7vw, 1.45rem); }
